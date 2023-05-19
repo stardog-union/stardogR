@@ -1,0 +1,29 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix stardog: <tag:stardog:api:> .
+@prefix iris: <http://iris.com/> .
+
+<http://iris.com/IrisId> a owl:Class ;
+	rdfs:label 'IrisId' .
+<http://iris.com/sepalLength> a owl:DatatypeProperty ;
+	 rdfs:label 'sepalLength';
+	 rdfs:domain <http://iris.com/IrisId> ;
+	 rdfs:range xsd:decimal .
+<http://iris.com/sepalWidth> a owl:DatatypeProperty ;
+	 rdfs:label 'sepalWidth';
+	 rdfs:domain <http://iris.com/IrisId> ;
+	 rdfs:range xsd:decimal .
+<http://iris.com/petalLength> a owl:DatatypeProperty ;
+	 rdfs:label 'petalLength';
+	 rdfs:domain <http://iris.com/IrisId> ;
+	 rdfs:range xsd:decimal .
+<http://iris.com/petalWidth> a owl:DatatypeProperty ;
+	 rdfs:label 'petalWidth';
+	 rdfs:domain <http://iris.com/IrisId> ;
+	 rdfs:range xsd:decimal .
+<http://iris.com/species> a owl:DatatypeProperty ;
+	 rdfs:label 'species';
+	 rdfs:domain <http://iris.com/IrisId> ;
+	 rdfs:range xsd:string .

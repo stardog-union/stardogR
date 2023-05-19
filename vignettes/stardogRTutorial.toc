@@ -1,0 +1,5 @@
+\contentsline {section}{\numberline {1}Why \tt {starodgR}?}{1}{section.1}%
+\contentsline {section}{\numberline {2}The Toronto Beaches data}{1}{section.2}%
+\contentsline {section}{\numberline {3}Building the database}{1}{section.3}%
+\contentsline {section}{\numberline {4}Running Stardog from R}{1}{section.4}%
+\contentsline {section}{\numberline {5}Reproducible research with Stardog}{1}{section.5}%

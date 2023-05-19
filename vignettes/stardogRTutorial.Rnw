@@ -1,0 +1,27 @@
+\documentclass{article}
+%\VignetteIndexEntry{StardogTutorial}
+
+\usepackage{hyperref}
+
+\title{Using StardogR}
+\author{Catherine Dalzell}
+\date{2023-05-12}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Why \tt{starodgR}?}
+
+\section{The Toronto Beaches data}
+
+\section{Building the database}
+
+\section{Running Stardog from R}
+
+\section{Reproducible research with Stardog}
+
+
+
+\end{document}

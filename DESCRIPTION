@@ -1,0 +1,26 @@
+Package: stardogR
+Type: Package
+Title: R wrapper for the Stardog HTTP API
+Version: 0.1.0
+Authors@R: person("Catherine", "Dalzell", email = "catherine.dalzell@stardog.com",
+    role = c("aut", "cre"))
+Maintainer: <catherine.dalzell@stardog.com>
+Description: Supplies many of the calls from the Stardog HTTP API, especially those intended
+    for use in data science. Admin functions to assign users and roles, or deal with security
+    are not included.
+License: GPL
+Encoding: UTF-8
+LazyData: true
+Imports:
+    jsonlite,
+    purrr,
+    readr,
+    sttr,
+    igraph
+RoxygenNote: 7.2.3
+Depends: 
+    R (>= 4.0.0)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

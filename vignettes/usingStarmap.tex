@@ -1,0 +1,355 @@
+%\VignetteIndexEntry{usingStarmap}
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+
+\title{Creating a mapping file with Starmap}
+\author{Catherine Dalzell}
+\date{2023-05-12}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+
+\maketitle
+
+\tableofcontents
+
+\section{Using \tt{starmap}}
+
+If external data is already in RDF format, the data format Stardog uses to build the graph, we can simply add the data to the database. On the command line, this is done using \href{https://docs.stardog.com/stardog-cli-reference/data/data-add}{stardog data add}. In \tt{stardogR}, we can use the \tt{data\_add} function. However, if the data are in some other format, such as SQL, CSV or JSON, we need to instruct Stardog how to build the graph. The Stardog Mapping Language, \tt{SMS} is a simple scripting language that enables Stardog to convert tabular data into knowledge graph data (RDF). There is a tutorial and some examples for using SMS in the \href{https://docs.stardog.com/virtual-graphs/importing-json-csv-files}{Stardog documentation}. This vignette assumes that the reader already knows how to construct a mapping file for importing CSV files.
+
+\tt{starmap} allows the R user to build a simple SMS file for mapping data frames to Stardog. \tt{starmap} makes a lot of decisions, which may not be suitable for every application. Nevertheless, \tt{starmap} output can save time by setting up the boilerplate and building a framework. You can then edit the details suit your needs. \tt{starmap} returns a list containing two strings. The first is the SMS mapping in string format, and the second is a simple ontology for the terms in the mapping.
+
+\tt{starmap} requires four arguments.
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{'stardogR'}\hlstd{)}
+\hlkwd{args}\hlstd{(starmap)}
+\end{alltt}
+\begin{verbatim}
+function (formulae, data, prefix = "", urn = "http://stardog.com/") 
+NULL
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\begin{description}
+\item[formulae] a vector of R-formula style that describe the structure of the graph we want to build. See below.
+\item[data] a data frame containing the data to be mapped. Note that \tt{starmap} only uses the names of the data frame and the data types. One could submit the first few rows of a dataframe and get the same results. This can be useful when working with very large files.
+\item[prefix] an abbreviated form of the URN that will be used to build node and property names
+\item[urn] the URN (Universal Resource Name). In theory, it would be legitimate to have several prefixes and URN's within the same mapping file, but that flexibility is not offered in \tt{starmap}. In that situation, one would need to edit the mapping or invoke the function for each URN.
+\end{description}
+
+\subsection{The \tt{starmap} formula}
+
+A \tt{starmap} formula indicates how the data should relate in the knowledge graph. The syntax is based on the R formula language. Complex relationships can be built up using several formulae, passed to \tt{starmap} as a vector. Here are the tokens used by \tt{starmap} and their usage. Assume that the data have columns with names v1, v2, v3, d1, d2, d3, d4. Variables v1, v2, v3 will be class nodes, and d1, d2, d3, \& d4 will be datatype properties.
+
+\subsubsection{Starmap tokens}
+
+\begin{description}
+\item[\textasciitilde] The tilde relates two class nodes. \tt{"v1 \textasciitilde  v2"} creates a directed relationship from v1 to v2, both of which have URN's.
+\item[$\vert$] The pipe symbol relates an IRI node (class node with URN) to its literal (or datatype) properties. \tt{"v1  \textasciitilde d1 + d2"} creates datatype relationships between \tt{v1} and literals \tt{d1} and \tt{d2}
+\item[\#] The expression \tt{\#varname} creates an IRI node from the row number and builds the URN from \tt{varname} and the supplied prefix.
+\item[:] The colon is used to pull in a sequence of literal properties from the data frame. \tt{4:7} maps columns 4 through 7 inclusive as datatype properties. Equally, the columns names can be used: \tt{d1:d4}. If d1 is after d4, reading left to right across the data frame, an error is thrown.
+\end{description}
+
+
+\subsubsection{Examples}
+
+\begin{description}
+  \item["v1"] Just maps column v1 as a class node.
+  \item["v1 $\vert$ d1 \textasciitilde\ v2 $\vert$ d2 + d3"] connects v1 to v2, giving datatype d1 to v1, and d2, d3 to v2.
+  \item[c("v1 $\vert$ d1 \textasciitilde\ v2 $\vert$ d2 + d3", "v3  \textasciitilde\ v1")] as above, while also connecting v3 to v1.
+\end{description}
+
+\subsubsection{Illegal formulae}
+
+\begin{description}
+  \item["v1 \textasciitilde\ v2 \textasciitilde\ v3"] There can only be one tilde per formula. Use instead, \tt(c{"v1 \textasciitilde\ v2", "v2 \textasciitilde\ v3"})
+  \item["d1 + d2"] Dataype properties need to be related to their subjects.
+  \item["\textasciitilde\ v2"] Not meaningful. To map just one column, do \tt{"v2"}
+  \item[Other errors] \tt{starmap} will throw an error if a term in the formula is not a column name of the database, or preceded by a \# symbol.
+\end{description}
+
+
+\section{The Toronto Beaches data }
+
+\tt{stardogR} comes with a set of data drawn from the open data portal of the City of Toronto. This set contains daily readings of eColi levels at each of Toronto's public beaches over the summer months of 2007 through 2013.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{data}\hlstd{(}\hlstr{'beaches'}\hlstd{,} \hlkwc{package} \hlstd{=} \hlstr{'stardogR'}\hlstd{)}
+\hlkwd{names}\hlstd{(beaches)}
+\end{alltt}
+\begin{verbatim}
+[1] "Beach_ID"       "Beach_Name"     "Sample_Date"    "Publish_Date"  
+[5] "eColi_Level"    "Beach_Status"   "Beach_Advisory"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Each row contains the results of one sample. I need an IRI node for each row. The sample date, eColi level and beach status are literal properties of the row. In addition, we might want to include column \tt{Beach\_Advisory}, which contains a text description of the results of the test. The beaches should be mapped to their own IRI nodes, with \tt{Beach\_Name} as a literal.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{results} \hlkwb{<-} \hlkwd{starmap}\hlstd{(}\hlstr{"#sample | Sample_Date + eColi_Level + Beach_Status +
+                    Beach_Advisory ~ Beach_ID | Beach_Name"}\hlstd{,}
+                  \hlstd{beaches,}
+                  \hlkwc{prefix} \hlstd{=} \hlstr{"beach"}\hlstd{,}
+                  \hlkwc{urn} \hlstd{=} \hlstr{"http://beach.stardog.com/"}
+                  \hlstd{)}
+\hlkwd{names}\hlstd{(results)}
+\end{alltt}
+\begin{verbatim}
+[1] "sms"  "onto"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\subsection{The SMS Mappings}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{cat}\hlstd{(results}\hlopt{$}\hlstd{sms)}
+\end{alltt}
+\begin{verbatim}
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
+prefix owl: <http://www.w3.org/2002/07/owl#> 
+prefix stardog: <tag:stardog:api:>  
+prefix beach: <http://beach.stardog.com/>  
+
+MAPPING
+FROM CSV {
+}
+TO {
+?sample_iri a beach:Sample ; 
+	rdfs:label ?sample . 
+?sample_iri 
+	beach:sampleDate ?Sample_Date_tr ;
+	beach:ecoliLevel ?eColi_Level_tr ;
+	beach:beachStatus ?Beach_Status_tr ;
+	beach:beachAdvisory ?Beach_Advisory_tr ;
+ .
+?Beach_ID_iri a beach:BeachId ; 
+	rdfs:label ?Beach_ID . 
+?Beach_ID_iri 
+	beach:beachName ?Beach_Name_tr ;
+ .
+?sample_iri beach:hasBeachId ?Beach_ID_iri .
+} 
+WHERE {
+BIND(TEMPLATE("http://beach.stardog.com/sample_{_ROW_NUMBER_}") as ?sample_iri)
+BIND(xsd:date(?Sample_Date) as ?Sample_Date_tr) 
+BIND(xsd:integer(?eColi_Level) as ?eColi_Level_tr) 
+BIND(xsd:string(?Beach_Status) as ?Beach_Status_tr) 
+BIND(xsd:string(?Beach_Advisory) as ?Beach_Advisory_tr) 
+BIND(TEMPLATE("http://beach.stardog.com/Beach_ID_{Beach_ID}") as ?Beach_ID_iri)
+BIND(xsd:string(?Beach_Name) as ?Beach_Name_tr) 
+}
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Here is the generated mapping file. The prefix lines at the start repeat the namespaces used by Stardog. The first five are namespaces defined by Stardog whenever a database is created. Teh `beach` prefix is, of course, the one supplied in the function call.
+
+`starmap` converts the dataframe to serialized CSV, requiring the `FROM CSV` clause. `starmap` could be used as a starting point for building mappings from SQL or JSON, by changing the `FROM` clause accordingly. See stardog documentation for details.
+
+`starmap` uses the names of the data frame to build properties and classes. Best results are obtained if the variable names are in snake\_case, or camelCase.
+
+* Classes are formed from the variable name in PascalCase (first letter capitalized). If the variable name has an underscore, `starmap` removes the underscore and capitalizes the components.
+* Datatype properties are formed from camelCase (first letter is a miniscule)
+* Object properties take the form `has`+PascalCase of the endpoint of the edge. So the relationship from `Sample` to `Beach\_ID` is expressed as `hasBeachId`.
+
+
+Stardog receives imported data as strings, and SMS assumes, by default, that everything is a string. To convert to a different data type, SMS needs to apply one of the `xsd` conversion functions to the incoming strings. `starmap` uses the datatypes of the data frame to figiure out which function to use. Let's take a look at the datatypes of the beaches data.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{unlist}\hlstd{(}\hlkwd{lapply}\hlstd{(beaches, class))}
+\end{alltt}
+\begin{verbatim}
+      Beach_ID     Beach_Name    Sample_Date   Publish_Date    eColi_Level 
+     "integer"    "character"         "Date"    "character"      "integer" 
+  Beach_Status Beach_Advisory 
+   "character"    "character" 
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+`Sample\_Date` has class "Date", so in SMS, we run the conversion \begin{verbatim}BIND(xsd:date(?Sample_Date) as ?Sample_Date_tr)\end{verbatim}
+
+This expression says, basically, "convert the data in column `Sample\_Date` using function `xsd:date` and store the result in variable `?Sample\_Date\_tr."
+
+Strictly speaking, it is not necessary to convert string datatypes, like the name of the beach, using `xsd:string`, but it makes the process explicit and transparent. Every mapped variable should have an entry in the `WHERE` clause.
+
+\subsubsection{Factors}
+
+Factors are a datatype unique to R. They allow data to be stored with both numeric codes and their corresponding labels. R allows easy conversion from factors to either integer or character type, a convenient trick in data analysis. There is no corresponding data structure in `xsd` or in Stardog. R factors are imported as character strings, using the labels rather than the numeric codes. If, for some reason, one wanted to retain both codes and labels, it would be necessary to save these as two different columns of the data frame. A suitable mapping would ensure that they remained connected in the database.
+
+\subsubsection{DateTimes}
+
+Datetimes need some preparation to work properly in `starmap` and Stardog generally. Stardog works with strings. When I pass an R object of class `POSIXct` to Stardog, it will take the string representation of that datetime, not a numeric epoch. This string is then converted to a dateTime object in Stardog by way of function `xsd:dateTime`. The problem is that `xsd:dateTime` recognizes only one format. The strings need to be formatted as "\%Y-\%m-\%dT\%H:\%M:\%S". In most systems, the default datetime representation leaves a space between the date and the time, but RDF data requires a \bf{T}. If the data are formatted as R's default, with a space and no \bf{T}, `starmap` will map the data as a datetime, and the virtual import will claim success, but the data will not in fact be imported.
+
+\subsection{The Ontology}
+
+`starmap` creates a simple ontology for the new classes and properties defined for the previous mapping.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{cat}\hlstd{(results}\hlopt{$}\hlstd{onto)}
+\end{alltt}
+\begin{verbatim}
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix stardog: <tag:stardog:api:> . 
+@prefix beach: <http://beach.stardog.com/> . 
+
+<http://beach.stardog.com/Sample> a owl:Class ; 
+	rdfs:label 'Sample' . 
+<http://beach.stardog.com/sampleDate> a owl:DatatypeProperty ; 
+	rdfs:label 'sampleDate' ; 
+	rdfs:domain <http://beach.stardog.com/Sample> ; 
+	rdfs:range xsd:date .
+<http://beach.stardog.com/ecoliLevel> a owl:DatatypeProperty ; 
+	rdfs:label 'ecoliLevel' ; 
+	rdfs:domain <http://beach.stardog.com/Sample> ; 
+	rdfs:range xsd:integer .
+<http://beach.stardog.com/beachStatus> a owl:DatatypeProperty ; 
+	rdfs:label 'beachStatus' ; 
+	rdfs:domain <http://beach.stardog.com/Sample> ; 
+	rdfs:range xsd:string .
+<http://beach.stardog.com/beachAdvisory> a owl:DatatypeProperty ; 
+	rdfs:label 'beachAdvisory' ; 
+	rdfs:domain <http://beach.stardog.com/Sample> ; 
+	rdfs:range xsd:string .
+<http://beach.stardog.com/BeachId> a owl:Class ; 
+	rdfs:label 'BeachId' . 
+<http://beach.stardog.com/beachName> a owl:DatatypeProperty ; 
+	rdfs:label 'beachName' ; 
+	rdfs:domain <http://beach.stardog.com/BeachId> ; 
+	rdfs:range xsd:string .
+<http://beach.stardog.com/:hasBeachId> a owl:ObjectProperty ; 
+ 	 rdfs:label 'hasBeachId' ; 
+ 	 rdfs:domain <http://beach.stardog.com/Sample> ; 
+	 rdfs:range <http://beach.stardog.com/BeachId> . 
+ 
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+We can now use `stardogR` to create the database and load the data. Details on the use of `stardogR` are available in another vignette.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sg} \hlkwb{<-} \hlkwd{Stardog}\hlstd{(}\hlstr{"http://localhost:5820"}\hlstd{,} \hlstr{"admin"}\hlstd{,} \hlstr{"admin"}\hlstd{)}
+\hlstd{sg} \hlkwb{<-} \hlkwd{use_database}\hlstd{(sg,} \hlstr{"beach"}\hlstd{,} \hlkwc{reset} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{add_namespace}\hlstd{(sg,} \hlkwc{uri} \hlstd{=} \hlstr{"http://beach.stardog.com/"}\hlstd{,} \hlkwc{prefix} \hlstd{=} \hlstr{"beach"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+Response [http://localhost:5820/admin/databases/beach/options]
+  Date: 2023-05-19 19:36
+  Status: 200
+  Content-Type: application/json
+  Size: 80 B
+\end{verbatim}
+\begin{alltt}
+\hlkwd{add_dataframe}\hlstd{(sg, beaches,} \hlkwc{mapping} \hlstd{= results}\hlopt{$}\hlstd{sms)}
+\end{alltt}
+\begin{verbatim}
+Response [http://localhost:5820/admin/virtual_graphs/import]
+  Date: 2023-05-19 19:36
+  Status: 200
+  Content-Type: <unknown>
+<EMPTY BODY>
+\end{verbatim}
+\begin{alltt}
+\hlkwd{add_ttl}\hlstd{(sg,} \hlkwc{ttl} \hlstd{= results}\hlopt{$}\hlstd{onto,} \hlkwc{graph} \hlstd{=} \hlstr{"beach:onto"}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Data added successfully!}}\begin{alltt}
+\hlkwd{query}\hlstd{(sg)}
+\end{alltt}
+\begin{verbatim}
+      n
+1 43385
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\end{document}

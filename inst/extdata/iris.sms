@@ -1,0 +1,29 @@
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix stardog: <tag:stardog:api:>
+prefix iris: <http://iris.com/>
+
+MAPPING
+FROM CSV {
+}
+TO {
+?Iris_id_iri a iris:IrisId ;
+	rdfs:label ?Iris_id ;
+	iris:sepalLength ?Sepal_Length_tr ;
+	iris:sepalWidth ?Sepal_Width_tr ;
+	iris:petalLength ?Petal_Length_tr ;
+	iris:petalWidth ?Petal_Width_tr ;
+	iris:species ?Species_tr .
+
+}
+WHERE {
+BIND(TEMPLATE("http://iris.com/Iris_id_{Iris_id}") as ?Iris_id_iri)
+BIND(xsd:decimal(?Sepal_Length) as ?Sepal_Length_tr)
+BIND(xsd:decimal(?Sepal_Width) as ?Sepal_Width_tr)
+BIND(xsd:decimal(?Petal_Length) as ?Petal_Length_tr)
+BIND(xsd:decimal(?Petal_Width) as ?Petal_Width_tr)
+BIND(xsd:string(?Species) as ?Species_tr)
+
+}
