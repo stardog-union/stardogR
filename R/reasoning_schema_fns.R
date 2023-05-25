@@ -11,12 +11,12 @@
 #' @returns Status code
 
 generate_model <- function(stardog, reasoning = FALSE,
-                           output=c('text', 'owl', 'sql', 'graphql', 'shaql'),
+                           output=c('text', 'owl', 'sql', 'graphql', 'shacl'),
                            encoding = 'UTF-8'
 ) {
   query_url <- paste(stardog$endpoint, stardog$database, "model", sep = "/")
-  if (!(output %in% c('text', 'owl', 'sql', 'graphql', 'shaql'))) {
-    message("Output format must be on of text, owl, sql, graphql or shaql")
+  if (!(output %in% c('text', 'owl', 'sql', 'graphql', 'shacl'))) {
+    message("Output format must be one of text, owl, sql, graphql or shacl")
     return()
   }
   r <- GET(query_url, authenticate(stardog$username, stardog$password),
