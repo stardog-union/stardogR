@@ -1,7 +1,8 @@
-\documentclass{article}
 %\VignetteIndexEntry{StardogTutorial}
+\documentclass{article}
 
 \usepackage{hyperref}
+\usepackage{parskip}
 
 \title{Using StardogR}
 \author{Catherine Dalzell}
@@ -12,15 +13,30 @@
 
 \tableofcontents
 
-\section{Why \tt{starodgR}?}
+<<echo=FALSE>>=
+library('stardogR')
+@
+
+
+\section{Stardog and R}
+
+Stardog is both an Enterprise graph database and a knowledge graph, capable of integrating diverse data sources. Stardog can materialize data to RDF format and query those data using the Sparql query language. Queries can also be made through Stardog against other data sources that have been mapped to semantic concepts Stardog can use. Stardog can thus function as a portal that unifies external data sources, as a standalone database in its own right, and as a combination of these things. A Stardog database can also access the growing number of public RDF data sources.
+
+Stardog supports an \href{https://stardog-union.github.io/http-docs/}{HTTP API}. For each of use, wrappers have been written to this API for an assortment of programming languages. \tt{stardogR} wraps some of the API's functionality in R.
+
+\subsection{An R workflow}
+
+Data scientists are used to working with more than one tool. At a minimum, there is a database of some kind for storing and organizing large quantities of data, and an analytic tool such as R. A good query language can go a long way into exploring the data and returning useful summaries, however there usually comes a point in the analysis where a different tool is required. This is also the point at which the analyst risks losing control of their material. The query is written in one language and the analysis is written in another. The analysis depends upon the results of the query, but that piece may not be in the analytic record.
+
+
 
 \section{The Toronto Beaches data}
 
 \section{Building the database}
 
-\section{Running Stardog from R}
+\section{Working with Stardog in R}
 
-\section{Reproducible research with Stardog}
+
 
 
 
