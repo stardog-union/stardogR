@@ -5,6 +5,7 @@
 #' Plots the ontology, based solely on classes, or classes and
 #' datatypes. Requires the ontology to be in a named graph.
 #' TODO: allow used of the default graph.
+#' 
 #'
 #' @param stardog Stardog object
 #' @param onto_graph URI of the named graph

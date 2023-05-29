@@ -47,7 +47,8 @@ add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = TRUE) {
 #' @param df Dataframe with the data to be imported to Stardog
 #' @param mapping Mapping function expressed as a string
 #' @param named_graph optional named of named graph to receive the data
-#' @importFrom sttr verbose
+#' @param verbose if TRUE, get more details about the request
+#' @importFrom httr verbose
 #' @export
 add_dataframe <- function(stardog, df, mapping, named_graph = NULL, verbose = FALSE) {
   df_io <- readr::format_delim(df, delim = ',')
@@ -94,10 +95,10 @@ add_dataframe <- function(stardog, df, mapping, named_graph = NULL, verbose = FA
 #' @param ... Additional parameters for the query
 #' @returns Success message for the request
 #' @export
-#' @importFrom sttr POST
-#' @importFrom sttr GET
-#' @importFrom sttr content
-#' @importFrom sttr authenticate
+#' @importFrom httr POST
+#' @importFrom httr GET
+#' @importFrom httr content
+#' @importFrom httr authenticate
 
 update_query <- function(stardog, q, ...) {
   options <- list(...)

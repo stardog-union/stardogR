@@ -3,8 +3,7 @@
 #' @param stardog Stardog object
 #' @returns Returns a vector of database names
 #' @export
-#' @importFrom sttr accept
-#' @importFrom sttr accept
+#' @importFrom httr accept
 list_databases <- function(stardog) {
   query_url <- paste(stardog$endpoint, "admin/databases", sep = "/")
   r <- GET(query_url, authenticate(stardog$username, stardog$password), accept("application/json"))

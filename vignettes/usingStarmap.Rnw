@@ -19,6 +19,9 @@
 
 <<echo=FALSE>>=
 knitr::opts_chunk$set(echo = TRUE, comment = NA)
+library('purrr')
+library('jsonlite')
+library('httr')
 @
 
 \maketitle
@@ -148,7 +151,7 @@ cat(results$onto)
 
 We can now use `stardogR` to create the database and load the data. Details on the use of `stardogR` are available in another vignette.
 
-<<eval=TRUE>>=
+<<>>=
 sg <- Stardog("http://localhost:5820", "admin", "admin")
 sg <- use_database(sg, "beach", reset = TRUE)
 add_namespace(sg, uri = "http://beach.stardog.com/", prefix = "beach")

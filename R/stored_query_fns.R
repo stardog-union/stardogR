@@ -44,9 +44,9 @@ list_stored <- function(stardog, allDB = FALSE) {
 #' @param reasoning Boolean. If TRUE, reasoning is used in the query.
 #' @returns Returns a success message or the status code of the call
 #' @export
-#' @importFrom sttr content_type
-#' @importFrom sttr DELETE
-#' @importFrom sttr PUT
+#' @importFrom httr content_type
+#' @importFrom httr DELETE
+#' @importFrom httr PUT
 #'
 add_stored <- function(stardog, q = "select (count(*) as ?n) {?s ?p ?o .}",
                        queryName = "CountEm",
@@ -188,7 +188,7 @@ update_stored <- function(stardog, storedQuery = "CountEm",
 #' @param newName rename the query to newName
 #' @returns Success message
 #' @export
-#' @importFrom sttr content_type_json
+#' @importFrom httr content_type_json
 rename_stored <- function(stardog, oldName = "CountEm", newName = "foo") {
   query_url <- paste(stardog$endpoint, "admin/queries/stored", oldName, sep = "/")
   body_list <- list(name = newName)

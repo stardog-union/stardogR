@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{begin_tx}
 \alias{begin_tx}
-\title{Start a transactions}
+\title{Start a transaction}
 \usage{
 begin_tx(stardog)
 }
@@ -13,7 +13,7 @@ begin_tx(stardog)
 Stardog object with the tx id in the transaction field.
 }
 \description{
-Start a transactions
+Start a transaction
 }
 \details{
 Some operations on the Stardog database require that a transaction be initiated. A transaction

@@ -20,8 +20,7 @@
 #'
 #'
 #'
-
-query <- function(stardog, q = "select (count(*) as ?n) {?s ?p ?o .}", namedGraph = NA, ...) {
+query <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', namedGraph = NA, ...) {
   q_options <- list(...)
   if (!is.na(namedGraph)) {
     q_options <- c(q_options, `default-graph-uri` = namedGraph)
@@ -48,28 +47,4 @@ query <- function(stardog, q = "select (count(*) as ?n) {?s ?p ?o .}", namedGrap
   return(fix_results(r))
 }
 
-
-#' Extract results of a GET query from the returned value
-#'
-#' This function is used internally by the query function
-#' @param r the response value from a Get.
-#' @returns Dataframe containing the results of the query.
-#'
-#' @details
-#' R utility `type.convert` is used to convert the columns to the most likely datatypes
-#' Typically, it will do a good job on integers, decimals and booleans. Dates are
-#' returned as character strings
-#'
-#' @importFrom purrr map
-#'
-fix_results <- function(r) {
-  if(isTRUE(r$headers$`content-type` == "application/trig")){x = r$content %>% rawToChar() ; return(x)} ## handle construct and describe queries
-  x = r$content %>% rawToChar() %>% fromJSON()
-  if(isTRUE(all(names(x) == c("head", "boolean")))){return(x$boolean)} ## handle ask queries
-  df = x$results$bindings %>% map_df(function(col){col=col$value}) ## only keep the values
-  dfNames = x$head$vars %>% unlist()
-  df[ , dfNames[dfNames %notin% names(df)]] = NA ## keep variable columns even if empty  ## uses fn: `%notin%` <- Negate(`%in%`)
-  df = df %>% mutate_all(as.character) %>%  select(all_of(dfNames))  # preserve column datatype and requested query variable order
-  return(df)
-}
 

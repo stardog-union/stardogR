@@ -1,3 +1,4 @@
+%\VignetteIndexEntry{StardogTutorial}
 \documentclass{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
 % maxwidth is the original width if it is less than linewidth
 % otherwise use linewidth (to make sure the graphics do not exceed the margin)
@@ -49,9 +50,9 @@
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
 \usepackage{alltt}
-%\VignetteIndexEntry{Using Animal}
 
 \usepackage{hyperref}
+\usepackage{parskip}
 
 \title{Using StardogR}
 \author{Catherine Dalzell}
@@ -62,15 +63,26 @@
 
 \tableofcontents
 
-\section{Why \tt{starodgR}?}
+
+
+
+\section{Stardog and R}
+
+Stardog is both an Enterprise graph database and a knowledge graph, capable of integrating diverse data sources. Stardog can materialize data to RDF format and query those data using the Sparql query language. Queries can also be made through Stardog against other data sources that have been mapped to semantic concepts Stardog can use. Stardog can thus function as a portal that unifies external data sources, as a standalone database in its own right, and as a combination of these things. A Stardog database can also access the growing number of public RDF data sources.
+
+Stardog supports an \href{https://stardog-union.github.io/http-docs/}{HTTP API}. For each of use, wrappers have been written to this API for an assortment of programming languages. \tt{stardogR} wraps some of the API's functionality in R.
+
+\subsection{An R workflow}
+
+Data scientists are used to working with more than one tool. At a minimum, there is a database of some kind for storing and organizing large quantities of data, and also an analytic tool such as R.
 
 \section{The Toronto Beaches data}
 
 \section{Building the database}
 
-\section{Running Stardog from R}
+\section{Working with Stardog in R}
 
-\section{Reproducible research with Stardog}
+
 
 
 
