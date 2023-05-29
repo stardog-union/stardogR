@@ -1,14 +1,4 @@
 
-#' check if the first input does not have a match in a second input
-#'
-#' This is simple negative corollary to the function %in%. Returns a logical vector indicating if there is a match or not for its left operand. TRUE if there is no match.
-#'
-#'@param x vector or NULL: the values to be matched. Long vectors are supported.
-#'@param table vector or NULL: the values to be matched against. Long vectors are not supported.
-#'@returns Returns a Boolean.
-#'
-`%notin%` <- Negate(`%in%`)
-
 
 #' check if the database field is empty
 #'
@@ -152,4 +142,30 @@ parse_options <- function(params, optionFun) {
     output <- FALSE
   }
   output
+}
+
+#' Extract results of a GET query from the returned value
+#'
+#' This function is used internally by the query function
+#' @param r the response value from a Get.
+#' @returns Dataframe containing the results of the query.
+#'
+#' @details
+#' R utility `type.convert` is used to convert the columns to the most likely datatypes
+#' Typically, it will do a good job on integers, decimals and booleans. Dates are
+#' returned as character strings
+#'
+#' @importFrom purrr map
+#'
+fix_results <- function(r) {
+  output <- content(r, type = "application/json", encoding = "UTF8")
+  dfNames <- unlist(output$head$vars)
+  results <- output$results[[1]]
+  df <- as.data.frame(do.call(cbind, map(dfNames, function(x)unlist(map(map(results, x), "value")))),
+                      stringsAsFactors = FALSE)
+  if (nrow(df) > 0) {
+    names(df) <- dfNames
+    df <- utils::type.convert(df, as.is = TRUE, numerals = "allow.loss")
+  }
+  df
 }
