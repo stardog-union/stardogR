@@ -2,35 +2,22 @@
 % Please edit documentation in R/query_fns.R
 \name{query}
 \alias{query}
-\title{Query Stardog}
+\title{Wrapper for specific query functions ask, construct and select}
 \usage{
-query(
-  stardog,
-  q = "select (count(*) as ?n) {?s ?p ?o .}",
-  namedGraph = NA,
-  ...
-)
+query(sg, q = "select (count(*) as ?n) {?s ?p ?o .}", namedGraph = NA, ...)
 }
 \arguments{
-\item{stardog}{A stardog object for the connect, containing a database}
+\item{sg}{Stardog object}
 
-\item{q}{The query expressed as a string}
+\item{q}{An ask, construct or select query}
 
-\item{namedGraph}{Run the query against this named graph}
+\item{namedGraph}{runs the query against the specified named graph}
 
-\item{...}{Options for the query. See Details}
+\item{...}{Options for the query. See functions ask, construct and select}
+}
+\value{
+the results of the query
 }
 \description{
-Issues a query to Stardog and return the results in a dataframe.
-}
-\details{
-Additional parameters:
-
-- limit (integer) number of results to return
-
-- reasoning (boolean) turn on reasoning. Not needed if a schema is included.
-
-- schema (string) name of the reasoning schema
-
-- offset (integer) number of results to skip before returning rows.
+Detects the type of query and runs the appropriate function
 }

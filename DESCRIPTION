@@ -1,7 +1,7 @@
 Package: stardogR
 Type: Package
 Title: R wrapper for the Stardog HTTP API
-Version: 0.1.0
+Version: 0.5.0
 Authors@R: person("Catherine", "Dalzell", email = "catherine.dalzell@stardog.com",
     role = c("aut", "cre"))
 Maintainer: <catherine.dalzell@stardog.com>
