@@ -169,3 +169,18 @@ fix_results <- function(r) {
   }
   df
 }
+
+#' Extract results of an ASK query from the returned content
+#'
+#' This function is used internally by the query function
+#' @param r the response value from a Get.
+#' @returns Boolean containing the results of the ASK query
+#'
+#'
+#'
+fix_results_ask <- function(r) {
+  output <- content(r, type = "application/json", encoding = "UTF8")
+  results <- output$boolean
+  results
+}
+
