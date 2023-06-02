@@ -29,9 +29,54 @@ add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = TRUE) {
     post_url <- paste(post_url, "?graph-uri=", graph, sep = "")
   }
 
-  r <- POST(post_url, authenticate(stardog$username, stardog$password),
+  r <- POST(post_url, 
+            authenticate(stardog$username, stardog$password),
+            add_headers(
+              accept = "text/plain"
+            ),
+            body = ttl,
             content_type('text/turtle'),
-            body = ttl)
+            encode = "raw")
+  stardog <- commit_tx(stardog)
+  status <- r$status_code
+  if (status == 200) {
+    message("Data added successfully!")
+  } else {
+    message("The request failed: ", status)
+  }
+}
+
+
+
+
+#'Add a string of trig
+#'
+#' Supply RDF in turtle format as a (possibly) multi-line string
+#'
+#' @param stardog Stardog object
+#' @param trig Some lines of turtle in a string.
+#' @param path boolean. If true, then ttl refers to the path to the ttl file.
+#'
+#' @returns nothing. A message is issued to indicate success or failure. Upon failure
+#' it returns the status code
+#'
+#' @export
+add_trig <- function(stardog, trig = NULL, path = TRUE) {
+  if (length(stardog$database) == 0) {
+    cat("Stardog object must include a database")
+    return()
+  }
+  if (path) {
+    trig <- readr::read_file(trig)
+  }
+  stardog <- begin_tx(stardog)
+  tx_id <- stardog$transaction
+  
+  post_url <- paste(stardog$endpoint, stardog$database, tx_id, "add", sep = "/")
+  
+  r <- POST(post_url, authenticate(stardog$username, stardog$password),
+            content_type('text/trig'),
+            body = trig)
   stardog <- commit_tx(stardog)
   status <- r$status_code
   if (status == 200) {
