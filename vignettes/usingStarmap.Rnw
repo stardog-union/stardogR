@@ -1,0 +1,184 @@
+%\VignetteIndexEntry{Data mapping with Starmap}
+\documentclass{article}
+
+
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+
+
+\title{Creating a mapping file with Starmap}
+\author{Catherine Dalzell}
+\date{2023-05-12}
+
+\begin{document}
+
+<<echo=FALSE>>=
+knitr::opts_chunk$set(echo = TRUE, comment = NA, warning = FALSE, message = FALSE)
+@
+
+<<echo=FALSE>>=
+library('stardogR')
+library('purrr')
+library('jsonlite')
+library('httr')
+@
+
+\maketitle
+
+\tableofcontents
+
+\section{Using \tt{starmap}}
+
+If external data is already in RDF format, the data format Stardog uses to build the graph, we can simply add the data to the database. On the command line, this is done using \href{https://docs.stardog.com/stardog-cli-reference/data/data-add}{stardog data add}. In \tt{stardogR}, we can use the \tt{data\_add} function. However, if the data are in some other format, such as SQL, CSV or JSON, we need to instruct Stardog how to build the graph from this information. The Stardog Mapping Language, \tt{SMS}, is a simple scripting language that enables Stardog to convert tabular data into knowledge graph data (RDF). There is a tutorial and some examples for using SMS in the \href{https://docs.stardog.com/virtual-graphs/importing-json-csv-files}{Stardog documentation}. This vignette assumes that the reader already knows how to construct a mapping file for importing CSV files.
+
+\tt{starmap} allows the R user to build a simple SMS file for mapping data frames to Stardog. \tt{starmap} makes a number of labeling decisions, which may not always be suitable to the user. Nevertheless, \tt{starmap} output can save time by setting up the boilerplate and building a template for the mapping. You can then edit the details to suit your needs. Function \tt{starmap} returns a list containing two strings. The first is the SMS mapping in string format, and the second is a simple ontology for the terms in the mapping.
+
+\tt{starmap} requires four arguments.
+
+
+<<eval=TRUE>>=
+library('stardogR')
+args(starmap)
+@
+
+
+\begin{description}
+\item[formulae] a vector of "formula" strings that describe the structure of the graph we want to build. See below. 
+\item[data] a data frame containing the data to be mapped. Note that \tt{starmap} only uses the dataframe to get the column names and the data types. One could submit the first few rows of a dataframe and get the same output. This can be useful when working with very large files. Function \tt{starmap} does not carry out the data import.
+\item[prefix] an abbreviated form of the URN that will be used to build node and property names
+\item[urn] the URN (Universal Resource Name). In theory, it would be legitimate to have several prefixes and URN's within the same mapping file, but that flexibility is not offered in \tt{starmap}. In that situation, one would need to edit the mapping or invoke the function for each URN.
+\end{description}
+
+\subsection{The \tt{starmap} formula}
+
+A \tt{starmap} formula indicates how the columns of data will be connected in the knowledge graph. The syntax is based on the R formula language. Complex relationships can be built up using several formulae, passed to \tt{starmap} as a vector. Here are the tokens used by \tt{starmap} and their usage. Assume that the data have columns with names v1, v2, v3, d1, d2, d3, d4. Variables v1, v2, v3 will be class nodes, and d1, d2, d3, \& d4 will be datatype properties.
+
+\subsubsection{Starmap tokens}
+
+\begin{description}
+\item[\textasciitilde] The tilde relates two class nodes. \tt{"v1 \textasciitilde  v2"} creates a directed relationship from v1 to v2, both of which have URN's.
+\item[$\vert$] The pipe symbol relates an IRI node (class node with URN) to its literal (or datatype) properties. \tt{"v1  \textasciitilde d1 + d2"} creates datatype relationships between \tt{v1} and literals \tt{d1} and \tt{d2}
+\item[\#] The expression \tt{\#varname} creates an IRI node from the row number and builds the URN from \tt{varname} and the supplied prefix.
+\item[:] The colon is used to pull in a sequence of literal properties from the data frame. \tt{4:7} maps columns 4 through 7 inclusive as datatype properties. Alternatively, columns names can be used: \tt{d1:d4}. If d1 is after d4, reading left to right across the data frame, an error is thrown.
+\end{description}
+
+
+\subsubsection{Examples}
+
+\begin{description}
+  \item["v1"] Just maps column v1 as a class node.
+  \item["v1 $\vert$ d1 \textasciitilde\ v2 $\vert$ d2 + d3"] connects v1 to v2, giving datatype d1 to v1, and d2, d3 to v2.
+  \item[c("v1 $\vert$ d1 \textasciitilde\ v2 $\vert$ d2 + d3", "v3  \textasciitilde\ v1")] as above, while also connecting v3 to v1.
+\end{description}
+
+\subsubsection{Illegal formulae}
+
+\begin{description}
+  \item["v1 \textasciitilde\ v2 \textasciitilde\ v3"] There can only be one tilde per formula. Use a vector of short formulae instead: \tt{c("v1 \textasciitilde\ v2", "v2 \textasciitilde\ v3")}
+  \item["d1 + d2"] Dataype properties need to be related to their subjects. \tt{"v1|d1 + d2"} is valid. 
+  \item["\textasciitilde\ v2"] Not meaningful. To map just one column, do \tt{"v2"}
+  \item[Other errors] \tt{starmap} will throw an error if a term in the formula is not a column name of the database, or else a name preceded by a \# symbol.
+\end{description}
+
+
+\section{The Toronto Beaches data }
+
+\tt{stardogR} comes with a set of data drawn from the open data portal of the City of Toronto. This set contains daily readings of eColi levels at each of Toronto's public beaches over the summer months of 2007 through 2013.
+
+<<>>=
+data('beaches', package = 'stardogR')
+names(beaches)
+@
+
+Each row contains the results of one eColi sample. I need an IRI node for each row. The sample date, eColi level and beach status are literal properties of the row. In addition, we might want to include column \tt{Beach\_Advisory}, which contains a text description of the results of the test. The beaches should be mapped to their own IRI nodes, with \tt{Beach\_Name} as a literal.
+
+<<>>=
+results <- starmap("#sample | Sample_Date + eColi_Level + Beach_Status +
+                    Beach_Advisory ~ Beach_ID | Beach_Name",
+                  beaches,
+                  prefix = "beach",
+                  urn = "http://beach.stardog.com/"
+                  )
+names(results)
+@
+
+\subsection{The SMS Mappings}
+
+<<>>=
+cat(results$sms)
+@
+
+Here is the generated mapping file. The prefix lines at the start repeat the namespaces used by Stardog. The first five are namespaces defined by Stardog whenever a database is created. The \texttt{beach} prefix is, of course, the one supplied in the function call.
+
+\tt{starmap} converts the dataframe to serialized CSV, requiring the \texttt{FROM CSV} clause. \tt{starmap} could be used as a starting point for building mappings from SQL or JSON, by changing the \texttt{FROM} clause accordingly. See Stardog documentation for details.
+
+\tt{starmap} uses the names of the data frame to build properties and classes. Best results are obtained if the variable names are in snake\_case, or camelCase.
+
+* Classes are formed from the variable name in PascalCase (first letter capitalized). If the variable name has an underscore, \tt{starmap} removes the underscore and capitalizes the components.
+* Datatype properties are formed from camelCase (first letter is a miniscule)
+* Object properties take the form has+PascalCase of the endpoint of the edge. So the relationship from \tt{Sample} to \tt{Beach\_ID} is expressed as \tt{hasBeachId}.
+
+
+Stardog receives imported data as strings, and SMS assumes, by default, that everything is a string. To convert to a different data type, SMS needs to apply one of the \texttt{xsd} conversion functions to the incoming strings. \tt{starmap} uses the datatypes of the data frame to figiure out which function to use. Let's take a look at the datatypes of the beaches data.
+
+<<>>=
+unlist(lapply(beaches, class))
+@
+
+
+\tt{Sample\_Date} has class "Date", so in SMS, we run the conversion \begin{verbatim}BIND(xsd:date(?Sample_Date) as ?Sample_Date_tr)\end{verbatim}
+
+This expression says, basically, "convert the data in column \tt{Sample\_Date} using function \tt{xsd:date} and store the result in variable \tt{?Sample\_Date\_tr}."
+
+Strictly speaking, it is not necessary to convert string datatypes, like the name of the beach, using \tt{xsd:string}, but it makes the process explicit and transparent, and the transformation is included. Every mapped variable should have an entry in the \tt{WHERE} clause.
+
+\subsubsection{Factors}
+
+Factors are a datatype unique to R. They allow data to be stored with both numeric codes and their corresponding labels. R allows easy conversion from factors to either integer or character type, a convenient trick in data analysis. There is no corresponding data structure in xsd or in Stardog. R factors are imported as character strings, using the labels rather than the numeric codes. If, for some reason, one wanted to retain both codes and labels, it would be necessary to save these as two different columns of the data frame. A suitable mapping would ensure that they remained connected in the database.
+
+\subsubsection{DateTimes}
+
+Datetimes need some preparation to work properly in \tt{starmap} and Stardog generally. Stardog works with strings. When I pass an R object of class \texttt{POSIXct} to Stardog, it will take the string representation of that datetime, not a numeric epoch. This string is then converted to a dateTime object in Stardog by way of function \texttt{xsd:dateTime}. The problem is that \texttt{xsd:dateTime} recognizes only one format. The strings need to be formatted as \texttt{\%Y-\%m-\%dT\%H:\%M:\%S}. In most systems, the default datetime representation leaves a space between the date and the time, but RDF data requires a \textbf{T}. If the data are formatted as R's default, with a space and no \textbf{T}, \tt{starmap} will map the data as a datetime, and the virtual import will claim success, but the data will not in fact be imported.
+
+\subsubsection{General SMS warning}
+
+The Stardog API will return an error message when it encounters syntactical errors in SMS or SPARQL queries, so the user knows that an error occurred. However, if SMS cannot map the data as described, it will silently fail to import the bits it can't find. For example, if a column header in the CSV file is, say, \texttt{myVar}, but I refer to it as \texttt{?myvar} in the mapping, it will simply not import \texttt{myVar}. If \texttt{myVar} was intended to map to an IRI node in the graph, SMS will also fail to import any datatype properties that depend on \texttt{myVar}. The rest of the data might import correctly and virtual import would message success.
+
+SMS also fails silently to import data that it cannot transform correctly. As noted in the previous section, datetimes need to be formatted as shown. Problems can also occur with Booleans. Function \texttt{xsd:boolean} converts character strings \texttt{true} and \texttt{false} to Booleans. R-style strings \texttt{TRUE} and \texttt{FALSE} will silently fail and such data will not be imported. For boolean data previously handled by R (TRUE/FALSE) or Python (True/False), amend the SMS string with \texttt{lcase}, the lower case function:
+
+\begin{verbatim}
+bind(xsd:boolean(lcase(?myBoolean)) as ?newBoolean)
+\end{verbatim}
+
+\subsection{The Ontology}
+
+
+
+<<>>=
+cat(results$onto)
+@
+
+\tt{starmap} creates a simple ontology for the new classes and properties defined for the previous mapping.
+
+\subsection{Building the databbase and importing the data}
+
+We can now use \texttt{stardogR} to create the database and load the data. Details on the use of \texttt{stardogR} are available in another vignette.
+
+<<eval=FALSE>>=
+sg <- Stardog("http://localhost:5820", "admin", "admin")
+sg <- use_database(sg, "beach", reset = TRUE)
+add_namespace(sg, uri = "http://beach.stardog.com/", prefix = "beach")
+add_dataframe(sg, beaches, mapping = results$sms)
+add_ttl(sg, ttl = results$onto, graph = "beach:onto")
+query(sg)
+@
+
+
+\end{document}
