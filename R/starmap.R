@@ -77,7 +77,7 @@ buildText <- function(formula, data, holding) {
      rhs <- buildTextSide(terms$rhs, data, lhs)
      # Now set an object property between the lhs and the rhs. Add the ontology. No binding necessary for this piece.
      objectProperty <- paste(lhs$node_iri, " ", prefix, ":has", rhs$node_class, " ", rhs$node_iri, " .\n", sep = ""  )
-     objectOntology <- paste("<" , urn , ":has", rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
+     objectOntology <- paste("<" , urn , "has", rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
                                    "\t" , " rdfs:label " , "'" , "has", rhs$node_class, "' " ,  "; \n " ,
                                    "\t" , " rdfs:domain ", "<" , urn , lhs$node_class , "> ; \n" ,
                                    "\t" , " rdfs:range " , "<" , urn, rhs$node_class , "> . \n ", sep = "")
@@ -125,10 +125,10 @@ buildTextSide <- function(side, data,  holding) {
     node_binding <- node
   }
   node_iri <- paste("?", node, "_iri", sep = "")
+  node_class = snakePascal(node)
 
   if (!(node %in% nodeList)) {
     holding$nodeList <- c(holding$nodeList, node)
-    node_class = snakePascal(node)
     holding$sparql <- paste(holding$sparql, node_iri , ' a ',  prefix, ':' , node_class , ' ; \n',
                              '\t', 'rdfs:label ?', node, ' . \n', sep = "" )
     holding$bindings <- paste(holding$bindings, 'BIND(TEMPLATE("', urn, node, '_{', node_binding, '}") as ', node_iri, ')',

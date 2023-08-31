@@ -51,7 +51,8 @@ add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = TRUE) {
 #' @importFrom httr verbose
 #' @export
 add_dataframe <- function(stardog, df, mapping, graph = NULL, verbose = FALSE) {
-  df_io <- readr::format_delim(df, delim = ',')
+  # df_io <- readr::format_delim(df, delim = ',')
+  df_io <- readr::format_delim(df, delim = ',', na = "")
   input_file_type <- 'DELIMITED'
 
   import_url <- paste(stardog$endpoint, "admin", "virtual_graphs", "import", sep = "/")

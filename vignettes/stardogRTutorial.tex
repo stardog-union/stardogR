@@ -1,5 +1,55 @@
 %\VignetteIndexEntry{Using StardogR}
-\documentclass{article}
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 \usepackage{hyperref}
 \usepackage{parskip}
@@ -11,23 +61,16 @@
 \title{Using StardogR}
 \author{Catherine Dalzell}
 \date{2023-05-12}
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \maketitle
 
 \tableofcontents
 
 
-<<echo=FALSE>>=
-knitr::opts_chunk$set(echo = TRUE, comment = NA, warning = FALSE, message = FALSE)
-@
 
-<<echo=FALSE>>=
-library('stardogR')
-library('purrr')
-library('jsonlite')
-library('httr')
-@
+
+
 
 
 \section{Stardog and R}
@@ -66,9 +109,13 @@ To run these examples, you first need access to a Stardog server. Every interact
 
 \subsection{The Stardog data structure}
 
-<<eval=FALSE>>=
-sg <- Stardog("http://localhost:5820", "admin", "admin", encoding = "UTF-8")
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sg} \hlkwb{<-} \hlkwd{Stardog}\hlstd{(}\hlstr{"http://localhost:5820"}\hlstd{,} \hlstr{"admin"}\hlstd{,} \hlstr{"admin"}\hlstd{,} \hlkwc{encoding} \hlstd{=} \hlstr{"UTF-8"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 The default username and password for a local installation are \tt{admin} and \tt{admin}. Object \tt{sg} holds the connection information. Replace these values with our own endpoint and authorization strings. Argument \tt{encoding} defaults to UTF-8
 
@@ -84,21 +131,33 @@ Working with data requires a database. In the typical, Enterprise scenario, the 
 
 \bf{Use an existing database}
 
-<<eval=FALSE>>=
-sg <- use_database(sg, dbName = "myDB")
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sg} \hlkwb{<-} \hlkwd{use_database}\hlstd{(sg,} \hlkwc{dbName} \hlstd{=} \hlstr{"myDB"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \bf{Create a new database and use it}
 
-<<eval=FALSE>>=
-sg <- use_database(sg, dbName = "myDB", create = TRUE)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sg} \hlkwb{<-} \hlkwd{use_database}\hlstd{(sg,} \hlkwc{dbName} \hlstd{=} \hlstr{"myDB"}\hlstd{,} \hlkwc{create} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \bf{Drop and recreate a new database and use it}
 
-<<eval=FALSE>>=
-sg <- use_database(sg, dbName = "myDB", reset = TRUE)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sg} \hlkwb{<-} \hlkwd{use_database}\hlstd{(sg,} \hlkwc{dbName} \hlstd{=} \hlstr{"myDB"}\hlstd{,} \hlkwc{reset} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 The function requires that you be explicit about your intentions. You can't delete an existing database without \tt{reset = TRUE}.
 
@@ -106,9 +165,13 @@ Since R is a functional language that avoids side effects, the stardog object is
 
 Sometimes, we may want to reset the database slot to NA, in which case, we can run:
 
-<<eval=FALSE>>=
-sg <- use_database(sg, dbName = "myDB", set_to_NA = TRUE)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sg} \hlkwb{<-} \hlkwd{use_database}\hlstd{(sg,} \hlkwc{dbName} \hlstd{=} \hlstr{"myDB"}\hlstd{,} \hlkwc{set_to_NA} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 This call makes no changes to the Stardog database.
 
@@ -127,14 +190,18 @@ The following code snippet shows how one might reset a database for the Toronto 
 
 Now, build the database locally or against your own endpoint.
 
-<<eval=FALSE>>=
-sg <- Stardog("http://localhost:5820", "admin", "admin")
-sg <- use_database(sg, "beaches", create = TRUE)
-add_namespace(sg, uri = "http://beach.stardog.com/", prefix = "beach")
-add_dataframe(sg, beaches, mapping = mapping_string)
-add_ttl(sg, ttl = onto_string, graph = "beach:onto")
-query(sg)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{sg} \hlkwb{<-} \hlkwd{Stardog}\hlstd{(}\hlstr{"http://localhost:5820"}\hlstd{,} \hlstr{"admin"}\hlstd{,} \hlstr{"admin"}\hlstd{)}
+\hlstd{sg} \hlkwb{<-} \hlkwd{use_database}\hlstd{(sg,} \hlstr{"beaches"}\hlstd{,} \hlkwc{create} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{add_namespace}\hlstd{(sg,} \hlkwc{uri} \hlstd{=} \hlstr{"http://beach.stardog.com/"}\hlstd{,} \hlkwc{prefix} \hlstd{=} \hlstr{"beach"}\hlstd{)}
+\hlkwd{add_dataframe}\hlstd{(sg, beaches,} \hlkwc{mapping} \hlstd{= mapping_string)}
+\hlkwd{add_ttl}\hlstd{(sg,} \hlkwc{ttl} \hlstd{= onto_string,} \hlkwc{graph} \hlstd{=} \hlstr{"beach:onto"}\hlstd{)}
+\hlkwd{query}\hlstd{(sg)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{enumerate}
   \item Create the stardog object with localhost endpoint
@@ -151,9 +218,13 @@ The ontology and mappings can be generated using function \tt{starmap}, which is
 
 We can get a look at the ontology using function \tt{plotSchema}
 
-<<eval=FALSE>>=
-plotSchema(sg, "beach:onto", datatypes = TRUE)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plotSchema}\hlstd{(sg,} \hlstr{"beach:onto"}\hlstd{,} \hlkwc{datatypes} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[scale = 0.5]{beachPlot.jpeg}}
@@ -178,16 +249,20 @@ Sparql queries against Stardog can be simple requests for data, or they can effe
 
 A select query extracts data from the database and returns it as an R DataFrame.
 
-<<eval=FALSE>>=
-q <- '
-select ?beachName {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+select ?beachName \{
   ?beach a beach:BeachId ;
     beach:beachName ?beachName .
-}
+\}
 order by ?beachName
-'
-query(sg, q = q)
-@
+'}
+\hlkwd{query}\hlstd{(sg,} \hlkwc{q} \hlstd{= q)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{verbatim}
                       beachName
@@ -219,12 +294,16 @@ Additional arguments can be supplied to the query function.
 
 \tt{limit} and \tt{graph} can be included in the body of the query or supplied as arguments.
 
-<<eval=FALSE>>=
-q <- '
-select * {?s ?p ?o .}
-'
-query(sg, q = q, limit = 5)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+select * \{?s ?p ?o .\}
+'}
+\hlkwd{query}\hlstd{(sg,} \hlkwc{q} \hlstd{= q,} \hlkwc{limit} \hlstd{=} \hlnum{5}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{verbatim}
      s                 p                  o
@@ -239,32 +318,40 @@ query(sg, q = q, limit = 5)
 
 The original data has a field called \tt{Beach\_Status}, which records SAFE or UNSAFE according as the eColi level is below 100 or not. Instead of importing that field, we can add it to the database with an insert query.
 
-<<eval=FALSE>>=
-q <- '
-insert {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+insert \{
   ?sample beach:beachStatus ?status
-} where {
+\} where \{
   ?sample a beach:Sample ;
     beach:ecoli ?ecoli .
   BIND(IF(?ecoli < 100, "SAFE", "UNSAFE") as ?status)
-}
-'
+\}
+'}
 
-query(sg, q)
-@
+\hlkwd{query}\hlstd{(sg, q)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 And now, to check:
 
-<<eval=FALSE>>=
-q <- '
-select * {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+select * \{
   ?sample beach:beachStatus ?status
-}
-'
+\}
+'}
 
-query(sg, q, limit = 5)
-@
+\hlkwd{query}\hlstd{(sg, q,} \hlkwc{limit} \hlstd{=} \hlnum{5}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{verbatim}
      sample           status
@@ -279,30 +366,38 @@ query(sg, q, limit = 5)
 
 Adding statistics and derived quantities to the raw data is possibly not a \it{best practice}. Better is to add derived values to a named graph so they remain distinct from the original data set. Let's delete the previous insertion and then add the \tt{status} values to their own graph.
 
-<<eval=FALSE>>=
-q <- '
-delete {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+delete \{
   ?sample beach:beachStatus ?status
-} where {
+\} where \{
   ?sample beach:beachStatus ?status .
-}
-'
+\}
+'}
 
-query(sg, q)
-@
+\hlkwd{query}\hlstd{(sg, q)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 reality check:
 
-<<eval=FALSE>>=
-q <- '
-select * {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+select * \{
   ?sample beach:beachStatus ?status
-}
-'
+\}
+'}
 
-query(sg, q, limit = 5)
-@
+\hlkwd{query}\hlstd{(sg, q,} \hlkwc{limit} \hlstd{=} \hlnum{5}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{verbatim}
 data frame with 0 columns and 0 rows
@@ -310,34 +405,42 @@ data frame with 0 columns and 0 rows
 
 Beach status was successfully deleted. Now, let's recalculate the status and write it to a named graph.
 
-<<eval=FALSE>>=
-q <- '
-insert {
-  graph beach:status {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+insert \{
+  graph beach:status \{
     ?sample beach:beachStatus ?status
-  }
-} where {
+  \}
+\} where \{
   ?sample a beach:Sample ;
     beach:ecoli ?ecoli .
   BIND(IF(?ecoli < 100, "SAFE", "UNSAFE") as ?status)
-}
-'
+\}
+'}
 
-query(sg, q)
-@
+\hlkwd{query}\hlstd{(sg, q)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 and checking ....
 
-<<eval=FALSE>>=
-q <- '
-select * {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+select * \{
   ?s ?p ?o .
-}
-'
+\}
+'}
 
-query(sg, q, graph = "beach:status", limit = 5)
-@
+\hlkwd{query}\hlstd{(sg, q,} \hlkwc{graph} \hlstd{=} \hlstr{"beach:status"}\hlstd{,} \hlkwc{limit} \hlstd{=} \hlnum{5}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{verbatim}
      s                p                   o
@@ -353,20 +456,24 @@ query(sg, q, graph = "beach:status", limit = 5)
 
 A construct query returns RDF instead of a DataFrame. Otherwise, the structure is similar to a select query. Suppose I want to return the names and identifiers of the beaches in RDF format.
 
-<<eval=FALSE>>=
-q <- '
-construct {
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{q} \hlkwb{<-} \hlstr{'
+construct \{
   ?beach a beach:BeachId ;
     beach:beachName ?name .
 
-} where {
+\} where \{
   ?beach a beach:BeachId ;
     beach:beachName ?name .
-}
-'
+\}
+'}
 
-cat(query(sg, q))
-@
+\hlkwd{cat}\hlstd{(}\hlkwd{query}\hlstd{(sg, q))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \begin{verbatim}
 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%201%20>

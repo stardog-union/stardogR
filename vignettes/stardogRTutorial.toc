@@ -1,0 +1,14 @@
+\contentsline {section}{\numberline {1}Stardog and R}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}An R workflow}{2}{subsection.1.1}%
+\contentsline {section}{\numberline {2}The Toronto Beaches data}{2}{section.2}%
+\contentsline {section}{\numberline {3}Building the database}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}The Stardog data structure}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Selecting a database}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Adding data}{4}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}A quick plot of the ontology}{5}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Querying Stardog from R}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}A select query}{6}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Additional arguments}{7}{subsubsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.2}An insert query}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Delete and insert into a named graph}{8}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}A construct query}{9}{subsection.4.4}%
