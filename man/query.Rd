@@ -8,7 +8,7 @@ query(
   stardog,
   q = "select (count(*) as ?n) {?s ?p ?o .}",
   graph = NA,
-  prefix = TRUE,
+  pretty = TRUE,
   ...
 )
 }
@@ -19,7 +19,7 @@ query(
 
 \item{graph}{runs the query against the specified named graph}
 
-\item{prefix}{True when we want the select query to adjust the output with prefixes.}
+\item{pretty}{True when we want the select query to adjust the output with prefixes.}
 
 \item{...}{Options for the query. See functions ask, construct and select}
 }
