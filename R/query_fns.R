@@ -4,8 +4,8 @@
 #'
 #' @param stardog A stardog object for the connect, containing a database
 #' @param q The query expressed as a string
-#' @param graph Run the query against this named graph. 
-#' @param prefix TRUE to replace the base iri with prefixes, where possible.
+#' @param graph Run the query against this named graph.
+#' @param pretty description TRUE to replace the base iri with prefixes, where possible.
 #' @param ... Options for the query. See Details
 #' @returns a dataframe containing the results.
 #' @details
@@ -21,9 +21,9 @@
 #'
 #' - offset (integer) number of results to skip before returning rows.
 #'
-#' 
 #'
-select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = NA, prefix = TRUE, ...) {
+#'
+select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = NA, pretty = TRUE, ...) {
   # check if this is a select query
   if (length(grep("select", q, ignore.case = TRUE, fixed = FALSE)) == 0) {
     simpleError(message = "The query must contain the keyword 'select' ")
@@ -52,7 +52,7 @@ select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = 
   r <- GET(query_url, authenticate(stardog$username, stardog$password), accept("application/sparql-results+json,application/trig"),
            query = query_list)
   output <- fix_results(r)
-  if (prefix && nrow(output) > 0) {
+  if (pretty && nrow(output) > 1) {
     # Adjust for pretty output with prefixes
     output <- apply(output, 2, iri_to_prefix, stardog = stardog)
   }
@@ -65,7 +65,7 @@ select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = 
 #' @param q The query expressed as a string. Must be an ask query
 #' @param graph Run the query against this named graph
 #' @param ... Options for the query. See Details
-#' @returns boolean 
+#' @returns boolean
 #' @details
 #' Additional parameters:
 #'
@@ -116,12 +116,12 @@ ask <- function(stardog, q = NA, graph = NA, ...) {
 #' @param q The query expressed as a string. Must be a construct query
 #' @param graph Run the query against this named graph
 #' @param ... Options for the query. See Details
-#' @returns the constructed RDF 
+#' @returns the constructed RDF
 #' @details
 #' Additional parameters:
 #'
 #' - limit (integer) number of results to return
-#' 
+#'
 #' - reasoning (boolean) turn on reasoning. Not needed if a schema is included.
 #'
 #' - schema (string) name of the reasoning schema
@@ -211,20 +211,20 @@ update_query <- function(stardog, q, graph = NA, ...) {
 }
 
 #' Wrapper for specific query functions ask, construct and select
-#' 
+#'
 #' Detects the type of query and runs the appropriate function
 #' @param stardog Stardog object
 #' @param q An ask, construct, update or select query
 #' @param graph runs the query against the specified named graph
-#' @param prefix True when we want the select query to adjust the output with prefixes.
+#' @param pretty True when we want the select query to adjust the output with prefixes.
 #' @param ... Options for the query. See functions ask, construct and select
 #' @details
 #' The graph parameter must be written out in full. "http://example.com/myGraph", say,
 #' instead of "ex:myGraph". Stardog does not parse the prefix in this context.
-#' 
+#'
 #' @returns the results of the query
 #' @export
-query <- function(stardog, q = "select (count(*) as ?n) {?s ?p ?o .}", graph = NA, prefix = TRUE, ...) {
+query <- function(stardog, q = "select (count(*) as ?n) {?s ?p ?o .}", graph = NA, pretty = TRUE, ...) {
   if (!is.na(graph)) {
     graph <- prefix_to_iri(stardog, graph)
   }
@@ -235,7 +235,7 @@ query <- function(stardog, q = "select (count(*) as ?n) {?s ?p ?o .}", graph = N
   } else if (length(grep("insert|delete", q,  ignore.case = TRUE)) > 0) {
     output <- update_query(stardog, q, graph = graph, ...)
   } else if (length(grep("select", q, ignore.case = TRUE)) > 0) {
-      output <- select(stardog, q = q, graph = graph, prefix = prefix, ...)
+      output <- select(stardog, q = q, graph = graph, pretty = pretty, ...)
   } else {
     simpleError("Query must be of the form ASK, construct, insert, delete or select")
   }

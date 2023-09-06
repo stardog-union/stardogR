@@ -4,12 +4,12 @@
 \alias{prefix_to_iri}
 \title{Convert a IRI with prefix to the full IRI}
 \usage{
-prefix_to_iri(stardog, s)
+prefix_to_iri(s, stardog)
 }
 \arguments{
-\item{stardog}{The stardog object}
-
 \item{s}{the string to be converted}
+
+\item{stardog}{The stardog object}
 }
 \value{
 the converted string, or simply s itself if no prefix was found in the namespace

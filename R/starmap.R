@@ -33,6 +33,7 @@ starmap <- function(formulae, data, prefix = "", urn = "http://stardog.com/") {
                 "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> ." ,
                 "@prefix owl: <http://www.w3.org/2002/07/owl#> ." ,
                 "@prefix stardog: <tag:stardog:api:> . ",
+                "@prefix so: <https://schema.org/> . " ,
                 prefix_line_onto,
                 sep = "\n")
 
@@ -79,8 +80,8 @@ buildText <- function(formula, data, holding) {
      objectProperty <- paste(lhs$node_iri, " ", prefix, ":has", rhs$node_class, " ", rhs$node_iri, " .\n", sep = ""  )
      objectOntology <- paste("<" , urn , "has", rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
                                    "\t" , " rdfs:label " , "'" , "has", rhs$node_class, "' " ,  "; \n " ,
-                                   "\t" , " rdfs:domain ", "<" , urn , lhs$node_class , "> ; \n" ,
-                                   "\t" , " rdfs:range " , "<" , urn, rhs$node_class , "> . \n ", sep = "")
+                                   "\t" , " so:domainIncludes ", "<" , urn , lhs$node_class , "> ; \n" ,
+                                   "\t" , " so:rangeIncludes " , "<" , urn, rhs$node_class , "> . \n ", sep = "")
      holding <- rhs
      holding$sparql <- paste(holding$sparql, objectProperty, sep = "")
      holding$onto <- paste(holding$onto, objectOntology, sep = "")
@@ -180,8 +181,8 @@ processDatatypes <- function(datatypes, data, holding) {
     bindings <- paste(bindings, "BIND(", dataTransform, "(?", dt, ") as ", datatypeName, ") \n", sep = "")
     onto <- paste(onto, "<" , urn , propertyName , "> " , "a owl:DatatypeProperty ; \n",
                   "\t", "rdfs:label " , "'" , propertyName , "' " ,  "; \n",
-                  "\t", "rdfs:domain ", "<" , urn , node_class , "> ; \n",
-                  "\t", "rdfs:range " , dataTransform , " .\n", sep = "")
+                  "\t", "so:domainIncludes ", "<" , urn , node_class , "> ; \n",
+                  "\t", "so:rangeIncludes " , dataTransform , " .\n", sep = "")
 
   }
   sparql <- paste(sparql, " .\n", sep = "")

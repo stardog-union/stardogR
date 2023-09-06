@@ -185,20 +185,20 @@ fix_results_ask <- function(r) {
 }
 
 #' Convert a IRI with prefix to the full IRI
-#' 
+#'
 #' If the string contains a single :, the functions checks if the first component
 #' is a namespace prefix. If it is, then it concerts the string to complete format.
 #' For example, if ex is the prefix for http://example.com/, it will convert
 #' ex:myGraph to http://example.com/myGraph.
-#' 
+#'
 #' @param stardog The stardog object
 #' @param s the string to be converted
 #' @returns the converted string, or simply s itself if no prefix was found in the namespace
 #' @details
 #' This is intended to parse named graphs entered as parameters. The function is not vectorized
 #' and adjusts only one string in each call.
-#' 
-prefix_to_iri <- function(stardog, s){
+#'
+prefix_to_iri <- function(s, stardog){
   check <- unlist(strsplit(s, split = ":", fixed = TRUE))
   if (length(check) != 2) {
     # Not in format prefix:field
@@ -218,35 +218,36 @@ prefix_to_iri <- function(stardog, s){
 }
 
 #' changes iri nodes with complete IRI bases to prefix: format
-#' 
+#'
 #' This function is intended to adjust query results to use the namespace
 #' prefixes instead of complete IRI's. Typically, this function will be applied
 #' to a vector of results. We can't assume that every item in the vector will have
 #' the same base IRI and prefix, given the optional keyboard, but typically,
 #' the prefix will be the same.
-#' 
+#'
 #' @param x a vector of results from a query, potentially containing iri bases
-#' @param stardog the stardog object. 
+#' @param stardog the stardog object.
 #' @returns Returns a transformed vector if all of the values have partial matches
 #' in the namespace file. If some cannot be matched because, say, they are literals, then
 #' it returns the vector unchanged
-#' 
+#'
 #' @details
 #' Note that this is the only function here in which the stardog object is in second place. That
 #' is because the primary application of this function is as applied to the dataframe output
 #' of a select query, and column vector has to be in first position.
-#' 
+#'
 #'
 iri_to_prefix <- function(x, stardog) {
   # This is code golf. Anyway, matches is a Boolean array with exactly one true value in each row
   # the column with TRUE corresponds to the matching row in the DF of namespaces
   # The matrix apply basically extracts the right prefix for each row.
   # We also extract the iri base corresponding to each result
-  
-  if (inherits(x, "character")) return(x) # Clearly not an IRI value
+
+  # if (inherits(x, "character")) return(x) # Clearly not an IRI value
   namespaces <- get_namespaces(stardog, raw = FALSE)
   matches <- outer(x, namespaces$name, startsWith)
   check <- all(apply(matches, 1, any))
+  output <- x # Default - return the input unchanged
   if (check) {
     # Check is true if every row of x matches an IRI base somewhere.
     # If there's something wrong, return the original value unchanged.
@@ -255,14 +256,21 @@ iri_to_prefix <- function(x, stardog) {
     }
     prefixes <- apply(matches, 1, tempFun, evaluator = namespaces$prefix)
     iri_bases <- apply(matches, 1, tempFun, evaluator = namespaces$name)
-    # Split x into a blank character and what remains after the iri_base is stripped
-    # We then replace the blank with the prefix and collapse
-    output <- do.call(rbind, strsplit(x, iri_bases, fixed = TRUE))
-    output[,1] <- prefixes
-    output <- apply(output, 1, paste, collapse = ":")
-    } else {
-      # Yeah. We'nre not going to mess with this.
-      output <- x
-    }
+
+    output <- tryCatch(
+      expr = {
+        # Split x into a blank character and what remains after the iri_base is stripped
+        # We then replace the blank with the prefix and collapse
+        output <- do.call(rbind, strsplit(x, iri_bases, fixed = TRUE))
+        output[,1] <- prefixes
+        output <- apply(output, 1, paste, collapse = ":")
+        },
+        error = function(e) {
+          message("If you are reading this there is probably something wrong with your namespace,
+                  such as duplicate prefixes or iri's.")
+        }
+      )
+  }
+
   return(output)
 }

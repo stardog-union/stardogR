@@ -8,7 +8,7 @@ select(
   stardog,
   q = "select (count(*) as ?n) {?s ?p ?o .}",
   graph = NA,
-  prefix = TRUE,
+  pretty = TRUE,
   ...
 )
 }
@@ -19,7 +19,7 @@ select(
 
 \item{graph}{Run the query against this named graph.}
 
-\item{prefix}{TRUE to replace the base iri with prefixes, where possible.}
+\item{pretty}{description TRUE to replace the base iri with prefixes, where possible.}
 
 \item{...}{Options for the query. See Details}
 }
