@@ -8,8 +8,7 @@
 #' @param ttl Some lines of turtle in a string.
 #' @param graph optional. name of the named graph to receive the new data
 #' @param path boolean. If true, then ttl refers to the path to the ttl file.
-#'
-#' @returns nothing. A message is issued to indicate success or failure. Upon failure
+#' @returns The status code. A message is issued to indicate success or failure. Upon failure
 #' it returns the status code
 #'
 #' @export
@@ -34,25 +33,40 @@ add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = TRUE) {
             body = ttl)
   stardog <- commit_tx(stardog)
   status <- r$status_code
-  if (status == 200) {
-    message("Data added successfully!")
-  } else {
-    message("The request failed: ", status)
-  }
+  #if (status == 200) {
+  #  message("Data added successfully!")
+  #} else {
+  #  message("The request failed: ", status)
+  #}
+  status
 }
 
 #' Materialize a dataframe to Stardog
+#'
+#' @description
+#' Serializes the data frame and posts to Stardog using the supplied mapping string.
+#' The data can be sent to a named graph. The parallel option allows use of readr function
+#' format_delim. This function calls a multi-threaded C routine which appears to cause random
+#' crashes in RStudio. Under the default (parallel = FALSE), the dataframe is serialized using
+#' a single threaded R function.
 #'
 #' @param stardog Stardog object
 #' @param df Dataframe with the data to be imported to Stardog
 #' @param mapping Mapping function expressed as a string
 #' @param graph optional named of named graph to receive the data
 #' @param verbose if TRUE, get more details about the request
+#' @param parallel If True use multi-threaded
+#' @returns status of the post operation
 #' @importFrom httr verbose
 #' @export
-add_dataframe <- function(stardog, df, mapping, graph = NULL, verbose = FALSE) {
-  # df_io <- readr::format_delim(df, delim = ',')
-  df_io <- readr::format_delim(df, delim = ',', na = "")
+add_dataframe <- function(stardog, df, mapping, na = "", graph = NULL,
+                          verbose = FALSE, parallel = TRUE) {
+  stopifnot(is.data.frame(df))
+  if (parallel) {
+    df_io <- readr::format_delim(df, delim = ',', na = na)
+  } else {
+    df_io <- format_delim_single_thread(df, delim = ',', na = na)
+  }
   input_file_type <- 'DELIMITED'
 
   import_url <- paste(stardog$endpoint, "admin", "virtual_graphs", "import", sep = "/")
@@ -85,7 +99,7 @@ add_dataframe <- function(stardog, df, mapping, graph = NULL, verbose = FALSE) {
             encode = 'multipart'
   )
   }
-  r
+  r$status
 }
 
 

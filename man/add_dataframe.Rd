@@ -4,7 +4,15 @@
 \alias{add_dataframe}
 \title{Materialize a dataframe to Stardog}
 \usage{
-add_dataframe(stardog, df, mapping, graph = NULL, verbose = FALSE)
+add_dataframe(
+  stardog,
+  df,
+  mapping,
+  na = "",
+  graph = NULL,
+  verbose = FALSE,
+  parallel = TRUE
+)
 }
 \arguments{
 \item{stardog}{Stardog object}
@@ -16,7 +24,16 @@ add_dataframe(stardog, df, mapping, graph = NULL, verbose = FALSE)
 \item{graph}{optional named of named graph to receive the data}
 
 \item{verbose}{if TRUE, get more details about the request}
+
+\item{parallel}{If True use multi-threaded}
+}
+\value{
+status of the post operation
 }
 \description{
-Materialize a dataframe to Stardog
+Serializes the data frame and posts to Stardog using the supplied mapping string.
+The data can be sent to a named graph. The parallel option allows use of readr function
+format_delim. This function calls a multi-threaded C routine which appears to cause random
+crashes in RStudio. Under the default (parallel = FALSE), the dataframe is serialized using
+a single threaded R function.
 }

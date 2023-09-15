@@ -16,7 +16,7 @@ add_ttl(stardog, ttl = NULL, graph = NULL, path = TRUE)
 \item{path}{boolean. If true, then ttl refers to the path to the ttl file.}
 }
 \value{
-nothing. A message is issued to indicate success or failure. Upon failure
+The status code. A message is issued to indicate success or failure. Upon failure
 it returns the status code
 }
 \description{

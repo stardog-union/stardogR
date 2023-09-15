@@ -274,3 +274,88 @@ iri_to_prefix <- function(x, stardog) {
 
   return(output)
 }
+
+#' Converts a data frame to a string
+#'
+#' takes a data frame and converts to a serialized CSV string. To be used
+#' by the add_dataframe function. No error checking takes place.
+#'
+#' @param x The data frame to be converted
+#' @returns A string serialization of the dataframe
+df_to_string <- function(x) {
+  temp <- as.matrix(x)
+  temp[is.na(temp)] <- ""
+  temp <- rbind(names(x), temp)
+  temp <- apply(temp, 2, fix_punctuation)
+  temp <- apply(temp, 1, paste, sep = "", collapse = ',')
+  temp <- paste(temp, sep = "", collapse = "\n")
+  temp
+}
+
+#' deal with commas and carriage returns
+#'
+#' @description
+#' Puts escaped quotes around strings that contain commas or carriage returns.
+#' intended to imitate the behaviour of format_delim and prevent problems
+#' when these symbols are given syntactic meaning.
+#'
+#' @param x A character string
+#' @return Returns the string with escaped quotes
+fix_punctuation <- function(x) {
+  # x is a character string. Some items might contain commas
+  comma_index <- grep("[,\n],", x, perl = TRUE)
+  x[comma_index] <- paste('\"', x[comma_index], '\"', sep = "")
+  x
+}
+
+#' Turn a dataframe into a string
+#'
+#' This is a slight variation on the readr format_delim function. It forces the function
+#' To single thread.
+#'
+#' @param x The data frame
+#' @param delim the delimiter of the resulting delimited string
+#' @param na How missing values are encoded
+#' @param quote presumably the defaults are OK
+#' @param escape likewise
+#' @param eol end of line marker to include in the string to mark distinct rows of the data frame.
+format_delim_single_thread <- function(x, delim, na = NA,
+                                       quote = c("needed", "all", "none"),
+                                       escape = c("double", "backslash", "none"), eol = "\n")
+{
+  stopifnot(is.data.frame(x))
+  append <- FALSE
+  col_names <- TRUE
+
+  x[] <- lapply(x, output_column)
+  res <- vroom::vroom_format(x, delim = delim, eol = eol, col_names = col_names,
+                             na = na, quote = quote, escape = escape, num_threads = 1)
+  Encoding(res) <- "UTF-8"
+  res
+}
+
+
+function (x, delim, na = "NA", append = FALSE, col_names = !append,
+          quote = c("needed", "all", "none"),
+          escape = c("double", "backslash", "none"), eol = "\n", quote_escape = deprecated())
+{
+  stopifnot(is.data.frame(x))
+  check_column_types(x)
+  if (is_present(quote_escape)) {
+    deprecate_soft("2.0.0", "write_delim(quote_escape = )",
+                   "write_delim(escape = )")
+    escape <- quote_escape
+  }
+  x[] <- lapply(x, output_column)
+  if (edition_first()) {
+    res <- stream_delim(df = x, file = NULL, delim = delim,
+                        col_names = col_names, append = append, na = na,
+                        quote_escape = escape, eol = eol)
+    Encoding(res) <- "UTF-8"
+    return(res)
+  }
+  res <- vroom::vroom_format(x, delim = delim, eol = eol, col_names = col_names,
+                             na = na, quote = quote, escape = escape)
+  Encoding(res) <- "UTF-8"
+  res
+}
