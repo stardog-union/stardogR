@@ -25,6 +25,7 @@ The mappings and ontology are output as a list of two strings.
 \details{
 The formulae are based on the R formula language.
 \code{x ~ y} maps x and y as iri nodes. there is an object property from x to y
+\code{x ~ pref ~ y} max x and y as iri nodes. Bilds the object property from pref and y.
 \code{x | v1 + v2} maps x as an iri node, with datatype properties v1 and v2.
 The types of v1 and v2 are deduced from their datatypes in the dataframe.
 \code{x | v1:v2} maps all columns from v1 through v2
