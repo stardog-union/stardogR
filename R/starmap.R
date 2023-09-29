@@ -7,7 +7,7 @@
 #' @param formulae A vector of strings. Each string is a simple starmap formula
 #' @param data The data frame to be mapped
 #' @param prefix A sparql prefix
-#' @param uri The prefix to each iri node written in full
+#' @param urn The prefix to each iri node written in full
 #'
 #' @returns A list containing the ontology and the SMS mapping as strings
 #' @details
@@ -23,8 +23,8 @@
 #' @export
 #'
 starmap <- function(formulae, data, prefix = "", uri = "http://stardog.com/") {
-  prefix_line <- paste("prefix ", prefix,  ": <" , uri, ">  \n\n", sep = "" )
-  prefix_line_onto <- paste("@prefix ", prefix,  ": <" , uri, "> . \n\n", sep = "" )
+  prefix_line <- paste("prefix ", prefix,  ": <" , urn, ">  \n\n", sep = "" )
+  prefix_line_onto <- paste("@prefix ", prefix,  ": <" , urn, "> . \n\n", sep = "" )
   sparql <- ""
   bindings <- ""
   nodeList <- c() # keep track of distinct iri nodes to avoid duplication in the mapping
@@ -49,7 +49,7 @@ starmap <- function(formulae, data, prefix = "", uri = "http://stardog.com/") {
   theWhereBit <- "\nWHERE {\n"
 
   holding <- list(sparql = sparql, bindings = bindings, onto = onto, nodeList = nodeList,
-                  prefix = prefix, uri = uri, node_iri = NA, node_class = NA)
+                  prefix = prefix, uri = urn, node_iri = NA, node_class = NA)
 
   for (formula in formulae) {
     holding <- buildText(formula, data, holding)
@@ -78,11 +78,11 @@ buildText <- function(formula, data, holding) {
   if (!is.na(terms$rhs$lhs)) {
      rhs <- buildTextSide(terms$rhs, data, lhs)
      # Now set an object property between the lhs and the rhs. Add the ontology. No binding necessary for this piece.
-     objectProperty <- paste(lhs$node_iri, " ", prefix, ":has", rhs$node_class, " ", rhs$node_iri, " .\n", sep = ""  )
-     objectOntology <- paste("<" , uri , "has", rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
-                                   "\t" , " rdfs:label " , "'" , "has", rhs$node_class, "' " ,  "; \n " ,
+     objectProperty <- paste(lhs$node_iri, " ", prefix, ":", terms$objectPrefix, rhs$node_class, " ", rhs$node_iri, " .\n", sep = ""  )
+     objectOntology <- paste("<" , uri , terms$objectPrefix, rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
+                                   "\t" , " rdfs:label " , "'" , terms$objectPrefix, rhs$node_class, "' " ,  "; \n " ,
                                    "\t" , " so:domainIncludes ", "<" , uri , lhs$node_class , "> ; \n" ,
-                                   "\t" , " so:rangeIncludes " , "<" , uri, rhs$node_class , "> . \n ", sep = "")
+                                   "\t" , " so:rangeIncludes " , "<" , urn, rhs$node_class , "> . \n ", sep = "")
      holding <- rhs
      holding$sparql <- paste(holding$sparql, objectProperty, sep = "")
      holding$onto <- paste(holding$onto, objectOntology, sep = "")
@@ -133,10 +133,10 @@ buildTextSide <- function(side, data,  holding) {
     holding$nodeList <- c(holding$nodeList, node)
     holding$sparql <- paste(holding$sparql, node_iri , ' a ',  prefix, ':' , node_class , ' ; \n',
                              '\t', 'rdfs:label ?', node, ' . \n', sep = "" )
-    holding$bindings <- paste(holding$bindings, 'BIND(TEMPLATE("', uri, node, '_{', node_binding, '}") as ', node_iri, ')',
+    holding$bindings <- paste(holding$bindings, 'BIND(TEMPLATE("', urn, node, '_{', node_binding, '}") as ', node_iri, ')',
                               '\n', sep = "")
     holding$onto <- paste(holding$onto,
-                           '<', uri, node_class, '>', ' ', 'a owl:Class ; \n',
+                           '<', urn, node_class, '>', ' ', 'a owl:Class ; \n',
                            '\t', 'rdfs:label', ' ', "'", node_class, "'", ' . \n', sep = "")
   }
   holding$node_iri <- node_iri
@@ -407,7 +407,7 @@ checkField <- function(field, dfNames) {
   output
 }
 
-#' Return the token
+#' Returi the token
 #'
 #' If the token is a single field, that field is returned. If the token is
 #' a range of integers or strings, it returns a list of field names within
