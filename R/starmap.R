@@ -13,6 +13,7 @@
 #' @details
 #' The formulae are based on the R formula language.
 #' \code{x ~ y} maps x and y as iri nodes. there is an object property from x to y
+#' \code{x ~ pref ~ y} max x and y as iri nodes. Bilds the object property from pref and y.
 #' \code{x | v1 + v2} maps x as an iri node, with datatype properties v1 and v2.
 #' The types of v1 and v2 are deduced from their datatypes in the dataframe.
 #' \code{x | v1:v2} maps all columns from v1 through v2
@@ -77,9 +78,9 @@ buildText <- function(formula, data, holding) {
   if (!is.na(terms$rhs$lhs)) {
      rhs <- buildTextSide(terms$rhs, data, lhs)
      # Now set an object property between the lhs and the rhs. Add the ontology. No binding necessary for this piece.
-     objectProperty <- paste(lhs$node_iri, " ", prefix, ":has", rhs$node_class, " ", rhs$node_iri, " .\n", sep = ""  )
-     objectOntology <- paste("<" , urn , "has", rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
-                                   "\t" , " rdfs:label " , "'" , "has", rhs$node_class, "' " ,  "; \n " ,
+     objectProperty <- paste(lhs$node_iri, " ", prefix, ":", terms$objectPrefix, rhs$node_class, " ", rhs$node_iri, " .\n", sep = ""  )
+     objectOntology <- paste("<" , urn , terms$objectPrefix, rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
+                                   "\t" , " rdfs:label " , "'" , terms$objectPrefix, rhs$node_class, "' " ,  "; \n " ,
                                    "\t" , " so:domainIncludes ", "<" , urn , lhs$node_class , "> ; \n" ,
                                    "\t" , " so:rangeIncludes " , "<" , urn, rhs$node_class , "> . \n ", sep = "")
      holding <- rhs
@@ -206,6 +207,7 @@ processFormula <- function(f, dfNames) {
   } else {
     output$rhs <- list(lhs = NA, rhs = NA)
   }
+  output$objectPrefix <- partials$objectPrefix
   output
 }
 
@@ -346,13 +348,20 @@ splitFormula <- function(f, operator = c("|", "~")) {
   if (length(terms) == 1) {
     lhs <- terms
     rhs <- NA
+    objectPrefix <- "has"
   } else if (length(terms) == 2) {
     lhs <- terms[1]
     rhs <- terms[2]
-  } else {
-    stop(simpleError(paste("A formula can only have one", operator, "operator.", sep = " ")))
+    objectPrefix <- "has"
+  } else if (length(terms) == 3) {
+    lhs <- terms[1]
+    rhs <- terms[3]
+    objectPrefix <- terms[2] # The middle element helps build the object property
   }
-  list(lhs = lhs, rhs = rhs)
+    else {
+    stop(simpleError(paste("A formula can have at most 2 ", operator, "operators.", sep = " ")))
+  }
+  list(lhs = lhs, rhs = rhs, objectPrefix = objectPrefix)
 }
 
 getDataType <- function(var, data) {

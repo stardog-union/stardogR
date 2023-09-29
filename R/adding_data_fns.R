@@ -63,7 +63,7 @@ add_dataframe <- function(stardog, df, mapping, na = "", graph = NULL,
                           verbose = FALSE, parallel = TRUE) {
   stopifnot(is.data.frame(df))
   if (parallel) {
-    df_io <- readr::format_delim(df, delim = ',', na = na)
+    df_io <- readr::format_delim(df, delim = ',', na = na, quote = "all")
   } else {
     df_io <- format_delim_single_thread(df, delim = ',', na = na)
   }
