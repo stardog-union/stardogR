@@ -22,7 +22,7 @@
 #'
 #' @export
 #'
-starmap <- function(formulae, data, prefix = "", urn = "http://stardog.com/") {
+starmap <- function(formulae, data, prefix = "", uri = "http://stardog.com/") {
   prefix_line <- paste("prefix ", prefix,  ": <" , urn, ">  \n\n", sep = "" )
   prefix_line_onto <- paste("@prefix ", prefix,  ": <" , urn, "> . \n\n", sep = "" )
   sparql <- ""
@@ -49,7 +49,7 @@ starmap <- function(formulae, data, prefix = "", urn = "http://stardog.com/") {
   theWhereBit <- "\nWHERE {\n"
 
   holding <- list(sparql = sparql, bindings = bindings, onto = onto, nodeList = nodeList,
-                  prefix = prefix, urn = urn, node_iri = NA, node_class = NA)
+                  prefix = prefix, uri = urn, node_iri = NA, node_class = NA)
 
   for (formula in formulae) {
     holding <- buildText(formula, data, holding)
@@ -70,7 +70,7 @@ starmap <- function(formulae, data, prefix = "", urn = "http://stardog.com/") {
 #'
 buildText <- function(formula, data, holding) {
   dfNames <- names(data)
-  urn <- holding$urn
+  uri <- holding$uri
   prefix <- holding$prefix
 
   terms <- processFormula(formula, dfNames)
@@ -79,9 +79,9 @@ buildText <- function(formula, data, holding) {
      rhs <- buildTextSide(terms$rhs, data, lhs)
      # Now set an object property between the lhs and the rhs. Add the ontology. No binding necessary for this piece.
      objectProperty <- paste(lhs$node_iri, " ", prefix, ":", terms$objectPrefix, rhs$node_class, " ", rhs$node_iri, " .\n", sep = ""  )
-     objectOntology <- paste("<" , urn , terms$objectPrefix, rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
+     objectOntology <- paste("<" , uri , terms$objectPrefix, rhs$node_class , "> " , "a owl:ObjectProperty ; \n " ,
                                    "\t" , " rdfs:label " , "'" , terms$objectPrefix, rhs$node_class, "' " ,  "; \n " ,
-                                   "\t" , " so:domainIncludes ", "<" , urn , lhs$node_class , "> ; \n" ,
+                                   "\t" , " so:domainIncludes ", "<" , uri , lhs$node_class , "> ; \n" ,
                                    "\t" , " so:rangeIncludes " , "<" , urn, rhs$node_class , "> . \n ", sep = "")
      holding <- rhs
      holding$sparql <- paste(holding$sparql, objectProperty, sep = "")
@@ -115,7 +115,7 @@ buildText <- function(formula, data, holding) {
 buildTextSide <- function(side, data,  holding) {
   node = side$lhs
   prefix <- holding$prefix
-  urn <- holding$urn
+  uri <- holding$uri
   nodeList <- holding$nodeList
 
   # check if we are dealing with a field from the data or a row number variable.
@@ -168,7 +168,7 @@ processDatatypes <- function(datatypes, data, holding) {
   node_iri <- holding$node_iri
   node_class <- holding$node_class
   prefix <- holding$prefix
-  urn <- holding$urn
+  uri <- holding$uri
 
   sparql <- paste(node_iri, "\n")
   onto <- ""
@@ -180,9 +180,9 @@ processDatatypes <- function(datatypes, data, holding) {
 
     sparql <- paste(sparql, "\t", prefix, ":", propertyName, " ", datatypeName, " ;\n", sep = "")
     bindings <- paste(bindings, "BIND(", dataTransform, "(?", dt, ") as ", datatypeName, ") \n", sep = "")
-    onto <- paste(onto, "<" , urn , propertyName , "> " , "a owl:DatatypeProperty ; \n",
+    onto <- paste(onto, "<" , uri , propertyName , "> " , "a owl:DatatypeProperty ; \n",
                   "\t", "rdfs:label " , "'" , propertyName , "' " ,  "; \n",
-                  "\t", "so:domainIncludes ", "<" , urn , node_class , "> ; \n",
+                  "\t", "so:domainIncludes ", "<" , uri , node_class , "> ; \n",
                   "\t", "so:rangeIncludes " , dataTransform , " .\n", sep = "")
 
   }
@@ -407,7 +407,7 @@ checkField <- function(field, dfNames) {
   output
 }
 
-#' Return the token
+#' Returi the token
 #'
 #' If the token is a single field, that field is returned. If the token is
 #' a range of integers or strings, it returns a list of field names within
