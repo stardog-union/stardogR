@@ -81,7 +81,7 @@ add_dataframe <- function(stardog, df, mapping, na = "", graph = NULL,
     post_body <- list(database = stardog$database,
                       mappings = mapping,
                       options = "{}",
-                      graph = graph,
+                      named_graph = graph,
                       input_file_type = input_file_type,
                       input_file = df_io
     )
