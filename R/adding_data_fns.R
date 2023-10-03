@@ -99,7 +99,7 @@ add_dataframe <- function(stardog, df, mapping, na = "", graph = NULL,
             encode = 'multipart'
   )
   }
-  r$status
+  r$status_code
 }
 
 
@@ -145,6 +145,6 @@ update_query <- function(stardog, q, ...) {
   } else if (r$status_code == 400 || r$status_code == 404) {
     return(content(r, encoding = stardog$encoding)$message)
   } else {
-    return(r)
+    return(r$status_code)
   }
 }
