@@ -49,7 +49,8 @@ select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = 
     )
   }
   query_url <- paste(stardog$endpoint, stardog$database, "query", sep = "/")
-  r <- GET(query_url, authenticate(stardog$username, stardog$password), accept("application/sparql-results+json,application/trig"),
+  r <- GET(query_url, authenticate(stardog$username, stardog$password),
+           accept("application/sparql-results+json,application/trig"),
            query = query_list)
   output <- fix_results(r)
   if (pretty && nrow(output) > 1) {
@@ -227,7 +228,7 @@ update_query <- function(stardog, q, graph = NA, ...) {
 #' @export
 query <- function(stardog, q = "select (count(*) as ?n) {?s ?p ?o .}", graph = NA, pretty = TRUE, ...) {
   if (!is.na(graph)) {
-    graph <- prefix_to_iri(stardog, graph)
+    graph <- prefix_to_iri(graph, stardog)
   }
   if (length(grep("construct", q, ignore.case = TRUE)) > 0) {
     output <- construct(stardog, q = q, graph = graph, ...)
