@@ -367,7 +367,7 @@ splitFormula <- function(f, operator = c("|", "~")) {
 getDataType <- function(var, data) {
   types <- lapply(data, class)
   if ("numeric" %in% types[[var]]) {
-    output <- "xsd:numeric"
+    output <- "xsd:decimal"
   } else if ("character" %in% types[[var]]) {
     output <- "xsd:string"
   } else if ("integer" %in% types[[var]]) {
