@@ -4,7 +4,7 @@
 \alias{starmap}
 \title{Create a SMS mapping and a simple ontology}
 \usage{
-starmap(formulae, data, prefix = "", urn = "http://stardog.com/")
+starmap(formulae, data, prefix = "", uri = "http://stardog.com/")
 }
 \arguments{
 \item{formulae}{A vector of strings. Each string is a simple starmap formula}
@@ -13,7 +13,7 @@ starmap(formulae, data, prefix = "", urn = "http://stardog.com/")
 
 \item{prefix}{A sparql prefix}
 
-\item{urn}{The prefix to each iri node written in full}
+\item{uri}{The prefix to each iri node written in full}
 }
 \value{
 A list containing the ontology and the SMS mapping as strings

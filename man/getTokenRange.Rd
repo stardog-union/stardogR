@@ -2,7 +2,7 @@
 % Please edit documentation in R/starmap.R
 \name{getTokenRange}
 \alias{getTokenRange}
-\title{Return the token}
+\title{Returi the token}
 \usage{
 getTokenRange(token, dfNames)
 }
