@@ -1,10 +1,4 @@
-#' Register a data source
-#'
-#'
-#'
-#add_data_source <- function(stardog, vg_name, ... ){
-#
-#}
+
 
 #' List data sources
 #'

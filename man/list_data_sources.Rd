@@ -2,7 +2,7 @@
 % Please edit documentation in R/virtual_graphs.R
 \name{list_data_sources}
 \alias{list_data_sources}
-\title{Register a data source}
+\title{List data sources}
 \usage{
 list_data_sources(stardog)
 }
@@ -13,8 +13,5 @@ list_data_sources(stardog)
 a list of data sources
 }
 \description{
-Register a data source
-}
-\details{
 List data sources
 }

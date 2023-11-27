@@ -22,7 +22,7 @@
 #'
 #' @export
 #'
-starmap <- function(formulae, data, prefix = "", uri = "http://stardog.com/") {
+starmap <- function(formulae, data, prefix = "", uri = "http://api.stardog.com/") {
   prefix_line <- paste("prefix ", prefix,  ": <" , uri, ">  \n\n", sep = "" )
   prefix_line_onto <- paste("@prefix ", prefix,  ": <" , uri, "> . \n\n", sep = "" )
   sparql <- ""
