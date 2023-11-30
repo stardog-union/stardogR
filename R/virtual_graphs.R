@@ -1,10 +1,4 @@
-#' Register a data source
-#'
-#'
-#'
-#add_data_source <- function(stardog, vg_name, ... ){
-#
-#}
+
 
 #' List data sources
 #'
@@ -85,3 +79,26 @@ add_virtual_graph <- function(stardog, vg_name, source_name,
   r$status_code
 }
 
+#' refresh the metadata
+#'
+#' If the tables of interest in a data source change, we need
+#' to refresh the metadata, or Stardog will not be able to find
+#' the new tables.
+#'
+#' @param stardog stardog object
+#' @param sourceName name of the data source to be refreshed
+#' @returns the status code of the post operation
+#'
+#' @export
+#'
+refresh_metadata <- function(stardog, sourceName) {
+  post_url <- paste(stardog$endpoint, "admin/data_sources", sourceName, "refresh_metadata", sep = "/")
+  #post_body <- list(name = sourceName)
+  #post_json <- toJSON(post_body, auto_unbox = TRUE)
+  r <- POST(post_url,
+            authenticate(stardog$username, stardog$password),
+            body = '{}',
+            encode = "raw"
+            )
+  r$status_code
+}

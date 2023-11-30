@@ -4,7 +4,7 @@
 \alias{starmap}
 \title{Create a SMS mapping and a simple ontology}
 \usage{
-starmap(formulae, data, prefix = "", uri = "http://stardog.com/")
+starmap(formulae, data, prefix = "", uri = "http://api.stardog.com/")
 }
 \arguments{
 \item{formulae}{A vector of strings. Each string is a simple starmap formula}
