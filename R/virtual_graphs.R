@@ -42,8 +42,9 @@ register_databricks <- function(stardog,
                                 jdbc.url= "",
                                 unique.key.sets = "",
                                 update = FALSE) {
-  post_url <- paste(stardog$endpoint, "/admin/data_sources", sep = "")
+
   if (update) {
+    post_url <- paste(stardog$endpoint, "admin/data_sources", source_name, sep = "/")
     post_body <- list(name = source_name,
                       options = list(
                         jdbc.url = jdbc.url,
@@ -59,21 +60,22 @@ register_databricks <- function(stardog,
              body = post_body,
              encode = "json")
   } else {
-  post_body <- list(name = source_name,
-                    options = list(
-                      jdbc.url = jdbc.url,
-                      jdbc.driver = "com.databricks.client.jdbc.Driver",
-                      testOnBorrow=TRUE,
-                      validationQuery="Select 1",
-                      unique.key.sets = unique.key.sets
-                    )
+    post_url <- paste(stardog$endpoint, "/admin/data_sources", sep = "")
+    post_body <- list(name = source_name,
+          options = list(
+            jdbc.url = jdbc.url,
+            jdbc.driver = "com.databricks.client.jdbc.Driver",
+            testOnBorrow=TRUE,
+            validationQuery="Select 1",
+            unique.key.sets = unique.key.sets
+          )
       )
 
-  r <- POST(post_url,
-            authenticate(stardog$username, stardog$password),
-            body = post_body,
-            encode = "json")
-  }
+    r <- POST(post_url,
+              authenticate(stardog$username, stardog$password),
+              body = post_body,
+              encode = "json")
+    }
   r
 }
 
@@ -85,11 +87,13 @@ register_databricks <- function(stardog,
 #' @param vg_name Name of the virtual graph
 #' @param source_name name of the data source
 #' @param mappings SMS mappings as a character string
+#' @param update boolean, if TRUE then update an existing VG graph
 #' @returns success code of the Post
 #'
 #' @export
 add_virtual_graph <- function(stardog, vg_name, source_name,
-                              mappings = "") {
+                              mappings = "", update = FALSE) {
+  if (!update) {
   post_url <- paste(stardog$endpoint, "/admin/virtual_graphs", sep = "")
   post_body <- list(name = vg_name,
                     data_source = source_name,
@@ -103,6 +107,21 @@ add_virtual_graph <- function(stardog, vg_name, source_name,
             body = post_json,
             encode = "raw"
             )
+  } else {
+    put_url <- paste(stardog$endpoint, "admin/virtual_graphs", vg_name, sep = "/")
+    post_body <- list(
+                      data_source = source_name,
+                      db = stardog$database,
+                      mappings = mappings,
+                      options = list(mappings.syntax = "SMS2")
+    )
+    post_json <- toJSON(post_body, auto_unbox = TRUE)
+    r <- PUT(put_url,
+              authenticate(stardog$username, stardog$password),
+              body = post_json,
+              encode = "raw"
+    )
+  }
   r$status_code
 }
 

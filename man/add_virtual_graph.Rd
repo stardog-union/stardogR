@@ -4,7 +4,7 @@
 \alias{add_virtual_graph}
 \title{Create a virtual graph}
 \usage{
-add_virtual_graph(stardog, vg_name, source_name, mappings = "")
+add_virtual_graph(stardog, vg_name, source_name, mappings = "", update = FALSE)
 }
 \arguments{
 \item{stardog}{Stardog object}
@@ -14,6 +14,8 @@ add_virtual_graph(stardog, vg_name, source_name, mappings = "")
 \item{source_name}{name of the data source}
 
 \item{mappings}{SMS mappings as a character string}
+
+\item{update}{boolean, if TRUE then update an existing VG graph}
 }
 \value{
 success code of the Post
