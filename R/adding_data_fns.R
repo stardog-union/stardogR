@@ -112,6 +112,7 @@ add_dataframe <- function(stardog, df, mapping, na = "", graph = NULL,
 #' @export
 #' @importFrom httr POST
 #' @importFrom httr GET
+#' @importFrom httr PUT
 #' @importFrom httr content
 #' @importFrom httr authenticate
 

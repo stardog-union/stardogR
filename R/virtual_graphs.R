@@ -22,6 +22,7 @@ list_data_sources <- function(stardog){
 #' @param source_name a name for the data source
 #' @param jdbc.url connection url
 #' @param unique.key.sets The unique keys. See details
+#' @param update boolean. Set to TRUE to update an existing data source
 #' @returns The success code of the operation.
 #'
 #' @details
@@ -39,8 +40,25 @@ list_data_sources <- function(stardog){
 register_databricks <- function(stardog,
                                 source_name,
                                 jdbc.url= "",
-                                unique.key.sets = "") {
+                                unique.key.sets = "",
+                                update = FALSE) {
   post_url <- paste(stardog$endpoint, "/admin/data_sources", sep = "")
+  if (update) {
+    post_body <- list(name = source_name,
+                      options = list(
+                        jdbc.url = jdbc.url,
+                        jdbc.driver = "com.databricks.client.jdbc.Driver",
+                        testOnBorrow=TRUE,
+                        validationQuery="Select 1",
+                        unique.key.sets = unique.key.sets
+                      ),
+                      force = TRUE
+    )
+    r <- PUT(post_url,
+             authenticate(stardog$username, stardog$password),
+             body = post_body,
+             encode = "json")
+  } else {
   post_body <- list(name = source_name,
                     options = list(
                       jdbc.url = jdbc.url,
@@ -48,7 +66,6 @@ register_databricks <- function(stardog,
                       testOnBorrow=TRUE,
                       validationQuery="Select 1",
                       unique.key.sets = unique.key.sets
-
                     )
       )
 
@@ -56,6 +73,7 @@ register_databricks <- function(stardog,
             authenticate(stardog$username, stardog$password),
             body = post_body,
             encode = "json")
+  }
   r
 }
 

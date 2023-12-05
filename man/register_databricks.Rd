@@ -4,7 +4,13 @@
 \alias{register_databricks}
 \title{Register a data source on databricks}
 \usage{
-register_databricks(stardog, source_name, jdbc.url = "", unique.key.sets = "")
+register_databricks(
+  stardog,
+  source_name,
+  jdbc.url = "",
+  unique.key.sets = "",
+  update = FALSE
+)
 }
 \arguments{
 \item{stardog}{a stardog object}
@@ -14,6 +20,8 @@ register_databricks(stardog, source_name, jdbc.url = "", unique.key.sets = "")
 \item{jdbc.url}{connection url}
 
 \item{unique.key.sets}{The unique keys. See details}
+
+\item{update}{boolean. Set to TRUE to update an existing data source}
 }
 \value{
 The success code of the operation.
