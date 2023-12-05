@@ -21,6 +21,7 @@ list_data_sources <- function(stardog){
 #' @param stardog a stardog object
 #' @param source_name a name for the data source
 #' @param jdbc.url connection url
+#' @param unique.key.sets The unique keys. See details
 #' @returns The success code of the operation.
 #'
 #' @details
@@ -28,17 +29,25 @@ list_data_sources <- function(stardog){
 #' contains the address of the warehouse as well as an authentication token
 #' for the user. Consequently, we don't need to supply username or password.
 #'
+#' Databricks need to know which fields in the tables are "unique keys", that is,
+#' which can be used as primary keys for joins. The value is a string, of the form
+#' "(table1.key1),(table2.key2),..." to indicate that field key1 of table1 is
+#' a unique key. For compound keys, do something of the form
+#' (table1.key1, table1.key2) within parentheses.
+#'
 #'@export
 register_databricks <- function(stardog,
                                 source_name,
-                                jdbc.url= "") {
+                                jdbc.url= "",
+                                unique.key.sets = "") {
   post_url <- paste(stardog$endpoint, "/admin/data_sources", sep = "")
   post_body <- list(name = source_name,
                     options = list(
                       jdbc.url = jdbc.url,
                       jdbc.driver = "com.databricks.client.jdbc.Driver",
                       testOnBorrow=TRUE,
-                      validationQuery="Select 1"
+                      validationQuery="Select 1",
+                      unique.key.sets = unique.key.sets
 
                     )
       )
@@ -100,5 +109,57 @@ refresh_metadata <- function(stardog, sourceName) {
             body = '{}',
             encode = "raw"
             )
+  r$status_code
+}
+
+#' Delete a registered data source
+#'
+#' @param stardog stardog object
+#' @param sourceName the name of the source
+#'
+#' @returns 204 if successful, 404 if the source does not exist
+#' @export
+delete_source <- function(stardog, sourceName) {
+  post_url <- paste(stardog$endpoint, "admin/data_sources", sourceName, sep = "/")
+  r <- DELETE(post_url,
+              authenticate(stardog$username, stardog$password))
+  r$status_code
+
+}
+
+#' list virtual graphs
+#'
+#' List the virtual graphs from the instance. It does not appear to allow you
+#' to specify the database.
+#'
+#' @param stardog stardog object
+#' @returns the results
+#'
+#' @export
+#'
+#'
+list_virtual_graphs <- function(stardog) {
+  get_url <- paste(stardog$endpoint, "admin/virtual_graphs", sep = "/")
+  r <- GET(get_url,
+           authenticate(stardog$username, stardog$password))
+  if (r$status_code == 200) {
+    output <- unlist(content(r)[[1]])
+  } else {
+    output <- r$status_code
+  }
+  output
+}
+
+#' delete a virtual graph
+#'
+#' @param stardog stardog object
+#' @param vgName name of the virtual graph to be deleted
+#' @returns Status code of the deletion
+#' @export
+#'
+delete_virtual_graph <- function(stardog, vgName) {
+  del_url <- paste(stardog$endpoint, "admin/virtual_graphs", vgName, sep = "/")
+  r <- DELETE(del_url,
+              authenticate(stardog$username, stardog$password))
   r$status_code
 }
