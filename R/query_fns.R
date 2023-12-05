@@ -23,7 +23,7 @@
 #'
 #'
 #'
-select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = NA, pretty = TRUE, ...) {
+select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = NA, pretty = TRUE, raw = FALSE, ...) {
   # check if this is a select query
   if (length(grep("select", q, ignore.case = TRUE, fixed = FALSE)) == 0) {
     simpleError(message = "The query must contain the keyword 'select' ")
@@ -52,13 +52,17 @@ select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = 
   r <- GET(query_url, authenticate(stardog$username, stardog$password),
            accept("application/sparql-results+json,application/trig"),
            query = query_list)
+  if (raw) {
+    return(r)
+  } else {
   output <- fix_results(r)
-  if (pretty && nrow(output) > 1) {
-    # Adjust for pretty output with prefixes
-    output <- apply(output, 2, iri_to_prefix, stardog = stardog)
-    output <- as.data.frame(output)
+    if (pretty && nrow(output) > 1) {
+      # Adjust for pretty output with prefixes
+      output <- apply(output, 2, iri_to_prefix, stardog = stardog)
+      output <- as.data.frame(output)
+    }
+    return(output)
   }
-  output
 }
 
 #' Issues an ask query to Stardog and return the result as a boolean
@@ -171,6 +175,7 @@ construct <- function(stardog, q = NA, graph = NA, ...) {
 #' @returns Success message for the request
 #' @importFrom httr POST
 #' @importFrom httr GET
+#' @importFrom httr DELETE
 #' @importFrom httr content
 #' @importFrom httr authenticate
 

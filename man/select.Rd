@@ -9,6 +9,7 @@ select(
   q = "select (count(*) as ?n) {?s ?p ?o .}",
   graph = NA,
   pretty = TRUE,
+  raw = FALSE,
   ...
 )
 }

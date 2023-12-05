@@ -4,7 +4,7 @@
 \alias{register_databricks}
 \title{Register a data source on databricks}
 \usage{
-register_databricks(stardog, source_name, jdbc.url = "")
+register_databricks(stardog, source_name, jdbc.url = "", unique.key.sets = "")
 }
 \arguments{
 \item{stardog}{a stardog object}
@@ -12,6 +12,8 @@ register_databricks(stardog, source_name, jdbc.url = "")
 \item{source_name}{a name for the data source}
 
 \item{jdbc.url}{connection url}
+
+\item{unique.key.sets}{The unique keys. See details}
 }
 \value{
 The success code of the operation.
@@ -24,4 +26,10 @@ Allows connecting virtual graphs to these tables
 There are instructions on Azure Databricks for forming jdbc.url. It
 contains the address of the warehouse as well as an authentication token
 for the user. Consequently, we don't need to supply username or password.
+
+Databricks need to know which fields in the tables are "unique keys", that is,
+which can be used as primary keys for joins. The value is a string, of the form
+"(table1.key1),(table2.key2),..." to indicate that field key1 of table1 is
+a unique key. For compound keys, do something of the form
+(table1.key1, table1.key2) within parentheses.
 }
