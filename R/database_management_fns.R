@@ -10,7 +10,22 @@ list_databases <- function(stardog) {
   unlist(content(r)[[1]])
 }
 
+#' check if there exists a database with the given name
+#'
+#' @param stardog Stardog object
+#' @param dbName potential database name
+#' @returns Boolean. True if there is a database with the supplied name
+#' @export
+#'
 
+exists_database <- function(stardog, dbName) {
+  temp <- list_databases(stardog)
+  if (dbName %in% temp) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
 
 #' Creates a new database
 #'
