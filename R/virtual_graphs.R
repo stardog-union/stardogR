@@ -200,3 +200,45 @@ delete_virtual_graph <- function(stardog, vgName) {
               authenticate(stardog$username, stardog$password))
   r$status_code
 }
+
+#' does a virtual graph exist
+#'
+#' Checks if a particular graph name corresponds to an existing virtual
+#' graph.
+#'
+#' @param stardog stardog object
+#' @param vgName name of possibly existing virtual graph
+#' @returns Boolean. True if there is a virtual graph with that namedd
+#' @export
+#'
+
+exists_virtual_graph <- function(stardog, vgName) {
+  temp <- list_virtual_graphs(stardog)
+  vgName <- paste("virtual://", vgName, sep = "")
+  if (vgName %in% temp) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+
+#' Does a data source exist
+#'
+#' Checks if there is a data source with the supplied name
+#'
+#' @param stardog Stardog object
+#' @param source_name Name of the potential data source
+#' @returns Boolean. True if there is a data source with that name
+#' @export
+#'
+exists_data_source <- function(stardog, data_source) {
+  temp <- unlist(list_data_sources(stardog))
+  if (data_source %in% temp) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
+
+#'
