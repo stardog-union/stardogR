@@ -5,7 +5,7 @@
 #' Plots the ontology, based solely on classes, or classes and
 #' datatypes. Requires the ontology to be in a named graph.
 #' TODO: allow used of the default graph.
-#' 
+#'
 #'
 #' @param stardog Stardog object
 #' @param onto_graph URI of the named graph
@@ -42,8 +42,8 @@ plotSchema <- function(stardog, onto_graph, datatypes = FALSE, plot = TRUE,
       ?n2 a owl:Class ;
         rdfs:label ?node2 .
       ?edge a owl:ObjectProperty ;
-        rdfs:domain ?n1 ;
-        rdfs:range ?n2
+        so:domainIncludes ?n1 ;
+        so:rangeIncludes ?n2
     }
   }
   ', sep = "")
@@ -61,7 +61,7 @@ plotSchema <- function(stardog, onto_graph, datatypes = FALSE, plot = TRUE,
       rdfs:label ?node .
       ?v a owl:DatatypeProperty ;
         rdfs:label ?value ;
-        rdfs:domain ?n .
+        so:domainIncludes ?n .
         }
     }
   ', sep = "")
