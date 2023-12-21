@@ -243,11 +243,11 @@ iri_to_prefix <- function(x, stardog) {
   # The matrix apply basically extracts the right prefix for each row.
   # We also extract the iri base corresponding to each result
 
-  # if (inherits(x, "character")) return(x) # Clearly not an IRI value
+  if (typeof(x) != "character") return(x) # Clearly not an IRI value
   namespaces <- get_namespaces(stardog, raw = FALSE)
   matches <- outer(x, namespaces$name, startsWith)
   check <- all(apply(matches, 1, any))
-  output <- x # Default - return the input unchanged
+  output <- x # x is not an IRI value, or it lacks a prefix.
   if (check) {
     # Check is true if every row of x matches an IRI base somewhere.
     # If there's something wrong, return the original value unchanged.
