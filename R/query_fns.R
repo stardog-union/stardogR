@@ -58,8 +58,11 @@ select <- function(stardog, q = 'select (count(*) as ?n) {?s ?p ?o .}', graph = 
   output <- fix_results(r)
     if (pretty && nrow(output) > 1) {
       # Adjust for pretty output with prefixes
-      output <- apply(output, 2, iri_to_prefix, stardog = stardog)
-      output <- as.data.frame(output)
+      #output <- apply(output, 2, iri_to_prefix, stardog = stardog)
+      #output <- as.data.frame(output)
+      for (n in names(output)) {
+        output[[n]] <- iri_to_prefix(output[[n]], stardog=stardog)
+      }
     }
     return(output)
   }
