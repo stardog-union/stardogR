@@ -282,9 +282,13 @@ iri_to_prefix <- function(x, stardog) {
 #'
 #' @param x The data frame to be converted
 #' @returns A string serialization of the dataframe
+#' @export
 #'
 df_to_string <- function(x) {
   temp <- as.matrix(x)
+  for (i in 1:ncol(temp)) {
+    temp[,i] <- trimws(temp[,i])
+  }
   temp[is.na(temp)] <- ""
   temp <- rbind(names(x), temp)
   temp <- apply(temp, 2, fix_punctuation)
@@ -309,9 +313,10 @@ df_to_string <- function(x) {
 fix_punctuation <- function(x) {
   # x is a character string. Some items might contain commas
   # x is a character string. Some items might contain commas or carriage returns.
-  x <- gsub('\"', 'qu@t&', x, fixed = TRUE)
-  comma_index <- grep("[,\n]", x, perl = TRUE)
+
+  comma_index <- grep("[,\n\"]", x, perl = TRUE)
   x[comma_index] <- paste('trogdor', x[comma_index], 'trogdor', sep = "")
+  x <- gsub('\"', 'qu@t&', x, fixed = TRUE)
   x
 }
 
