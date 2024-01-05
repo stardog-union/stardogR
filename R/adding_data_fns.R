@@ -60,12 +60,12 @@ add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = TRUE) {
 #' @importFrom httr verbose
 #' @export
 add_dataframe <- function(stardog, df, mapping, na = "", graph = NULL,
-                          verbose = FALSE, parallel = TRUE) {
+                          verbose = FALSE, parallel = FALSE) {
   stopifnot(is.data.frame(df))
   if (parallel) {
-    df_io <- readr::format_delim(df, delim = ',', na = na, quote = "all")
+    df_io <- readr::format_delim(df, delim = ',', na = na, quote = "needed")
   } else {
-    df_io <- format_delim_single_thread(df, delim = ',', na = na)
+    df_io <- df_to_string(df)
   }
   input_file_type <- 'DELIMITED'
 

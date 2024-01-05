@@ -11,7 +11,7 @@ add_dataframe(
   na = "",
   graph = NULL,
   verbose = FALSE,
-  parallel = TRUE
+  parallel = FALSE
 )
 }
 \arguments{
