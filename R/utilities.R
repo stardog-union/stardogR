@@ -282,6 +282,7 @@ iri_to_prefix <- function(x, stardog) {
 #'
 #' @param x The data frame to be converted
 #' @returns A string serialization of the dataframe
+#'
 df_to_string <- function(x) {
   temp <- as.matrix(x)
   temp[is.na(temp)] <- ""
@@ -289,22 +290,28 @@ df_to_string <- function(x) {
   temp <- apply(temp, 2, fix_punctuation)
   temp <- apply(temp, 1, paste, sep = "", collapse = ',')
   temp <- paste(temp, sep = "", collapse = "\n")
+  temp <- paste(temp, "\n", sep = "")
+  temp <- gsub("trogdor",'\"', temp, fixed=TRUE)
+  temp <- gsub("qu@t&",'\"\"', temp, fixed=TRUE)
   temp
 }
 
 #' deal with commas and carriage returns
 #'
 #' @description
-#' Puts escaped quotes around strings that contain commas or carriage returns.
+#' Puts nonsense markers around strings that contain commas or carriage returns.
 #' intended to imitate the behaviour of format_delim and prevent problems
-#' when these symbols are given syntactic meaning.
+#' when these symbols are given syntactic meaning. Also deals with escaping
+#' double and single quote
 #'
 #' @param x A character string
-#' @return Returns the string with escaped quotes
+#' @return Returns the string with nonsense markers where needed.
 fix_punctuation <- function(x) {
   # x is a character string. Some items might contain commas
-  comma_index <- grep("[,\n],", x, perl = TRUE)
-  x[comma_index] <- paste('\"', x[comma_index], '\"', sep = "")
+  # x is a character string. Some items might contain commas or carriage returns.
+  x <- gsub('\"', 'qu@t&', x, fixed = TRUE)
+  comma_index <- grep("[,\n]", x, perl = TRUE)
+  x[comma_index] <- paste('trogdor', x[comma_index], 'trogdor', sep = "")
   x
 }
 

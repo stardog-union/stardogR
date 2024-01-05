@@ -10,10 +10,11 @@ fix_punctuation(x)
 \item{x}{A character string}
 }
 \value{
-Returns the string with escaped quotes
+Returns the string with nonsense markers where needed.
 }
 \description{
-Puts escaped quotes around strings that contain commas or carriage returns.
+Puts nonsense markers around strings that contain commas or carriage returns.
 intended to imitate the behaviour of format_delim and prevent problems
-when these symbols are given syntactic meaning.
+when these symbols are given syntactic meaning. Also deals with escaping
+double and single quote
 }
