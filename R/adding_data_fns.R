@@ -56,6 +56,7 @@ add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = TRUE) {
 #' @param graph optional named of named graph to receive the data
 #' @param verbose if TRUE, get more details about the request
 #' @param parallel If True use multi-threaded
+#' @param na The missing value code for the translation
 #' @returns status of the post operation
 #' @importFrom httr verbose
 #' @export

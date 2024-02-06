@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Homebrew) (preloaded format=pdflatex 2023.3.21)  14 AUG 2023 14:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Homebrew) (preloaded format=pdflatex 2023.3.21)  6 FEB 2024 15:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -351,636 +351,640 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@toc=\write4
 \openout4 = `stardogRTutorial.toc'.
 
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 76.
+ [1
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 80--81
+{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/map/pdftex/updmap
+/pdftex.map}]
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 89--90
 \OT1/cmtt/m/n/10 R wrapper for those portions of the API most likely to be used
  by Data
  []
 
-[1
 
-{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/map/pdftex/updmap
-/pdftex.map}]
-Overfull \hbox (32.9967pt too wide) in paragraph at lines 83--84
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 92--93
 \OT1/cmtt/m/n/10 The Stardog API provides a full suite of tools for managing th
 e database
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 83--84
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 92--93
 \OT1/cmtt/m/n/10 and querying its contents. There are commands for creating use
 rs with
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 83--84
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 92--93
 \OT1/cmtt/m/n/10 different roles and permissions; creating the database and set
 ting
  []
 
 
-Overfull \hbox (32.9967pt too wide) in paragraph at lines 83--84
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 92--93
 \OT1/cmtt/m/n/10 its properties; loading data; connecting to other data sources
 ; managing
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 83--84
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 92--93
 \OT1/cmtt/m/n/10 meta-data; using Graphql; managing named graphs and issuing Sp
 arql
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 83--84
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 92--93
 \OT1/cmtt/m/n/10 queries. Currently, stardogR implements those commands most li
 kely
  []
 
 
-Overfull \hbox (27.74675pt too wide) in paragraph at lines 83--84
+Overfull \hbox (27.74675pt too wide) in paragraph at lines 92--93
 \OT1/cmtt/m/n/10 to be of interest to Data Scientists. Additional wrappers may 
 be added
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 87--88
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 Data scientists are used to working with more than one tool. A
 t a
  []
 
 
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 87--88
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 minimum, there is a database of some kind for storing and orga
 nizing
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 87--88
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 large quantities of data, and an analytic tool such as R. A go
 od query
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 87--88
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 language can explore the data and return useful summaries, how
 ever
  []
 
 
-Overfull \hbox (27.74675pt too wide) in paragraph at lines 87--88
+Overfull \hbox (27.74675pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 there usually comes a point where a tool with more finesse is 
 required,
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 87--88
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 such as R. This is also the point at which the analyst risks l
 osing
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 87--88
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 control of the process. The query is written in one language a
 nd the
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 87--88
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 analysis is written in another. The analysis depends upon the 
 results
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 87--88
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 of the query, but that piece may not be in the analytic record
 . With
  []
 
 
-Overfull \hbox (38.24666pt too wide) in paragraph at lines 87--88
+Overfull \hbox (38.24666pt too wide) in paragraph at lines 96--97
 \OT1/cmtt/m/n/10 stardogR, queries and machine learning can both be done from a
 n RMarkdown
  []
 
 
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 93--94
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 102--103
 \OT1/cmtt/m/n/10 stardogR comes with a set of data drawn from the open data por
 tal of
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 93--94
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 102--103
 \OT1/cmtt/m/n/10 the City of Toronto. This set contains daily readings of eColi
  levels
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 93--94
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 102--103
 \OT1/cmtt/m/n/10 at each of Toronto's public beaches over the summer months of 
 2007
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 103--104
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 112--113
 []\OT1/cmtt/m/n/10 Each row contains the results of one eColi sample. We have t
 he eColi
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 103--104
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 112--113
 \OT1/cmtt/m/n/10 measurement, the name and ID of the beach where there the meas
 urement
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 103--104
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 112--113
 \OT1/cmtt/m/n/10 was taken, sample and publication date (typically the same day
 ) and
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 103--104
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 112--113
 \OT1/cmtt/m/n/10 the beach status. Status is recorded in two columns: a simple 
 label
  []
 
 
-Overfull \hbox (15.77684pt too wide) in paragraph at lines 103--104
+Overfull \hbox (15.77684pt too wide) in paragraph at lines 112--113
 \OT1/cmtt/m/n/10 in Beach[]Status, like SAFE or UNSAFE, and a more detailed des
 cription
  []
 
 
-Overfull \hbox (31.5267pt too wide) in paragraph at lines 103--104
+Overfull \hbox (31.5267pt too wide) in paragraph at lines 112--113
 \OT1/cmtt/m/n/10 in Beach[]Advisory. The beach is considered to be unsafe when 
 the eColie
  []
 
 [2]
-Overfull \hbox (32.9967pt too wide) in paragraph at lines 108--109
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 117--118
 \OT1/cmtt/m/n/10 To run these examples, you first need access to a Stardog serv
 er. Every
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 108--109
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 117--118
 \OT1/cmtt/m/n/10 interaction with Stardog requires the endpoint of the installa
 tion,
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 108--109
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 117--118
 \OT1/cmtt/m/n/10 a username and a password. For convenience, these are stored i
 n a
  []
 
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 115.
 
-Overfull \hbox (53.99652pt too wide) in paragraph at lines 115--115
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 124--124
 [][]\OT1/cmtt/m/n/10 sg[] []<-[] []Stardog[][]([][]"http://localhost:5820"[][],
 [] []"admin"[][],[] []"admin"[][],[] []encoding[] []=[] []"UTF-8"[][])[][] 
  []
 
 
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 120--121
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 129--130
 []\OT1/cmtt/m/n/10 The default username and password for a local installation a
 re admin
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 120--121
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 129--130
 \OT1/cmtt/m/n/10 and admin. Object sg holds the connection information. Replace
  these
  []
 
 
-Overfull \hbox (43.49661pt too wide) in paragraph at lines 120--121
+Overfull \hbox (43.49661pt too wide) in paragraph at lines 129--130
 \OT1/cmtt/m/n/10 values with our own endpoint and authorization strings. Argume
 nt encoding
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 122--123
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 131--132
 []\OT1/cmtt/m/n/10 The stardog object is also used to hold transaction id's, th
 e name
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 122--123
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 131--132
 \OT1/cmtt/m/n/10 of the active database and other information. In a typical obj
 ect
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 122--123
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 131--132
 \OT1/cmtt/m/n/10 oriented language (which R is not), all subsequent functions w
 ould
  []
 
 
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 122--123
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 131--132
 \OT1/cmtt/m/n/10 be methods against the stardog object and the class members wo
 uld be
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 122--123
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 131--132
 \OT1/cmtt/m/n/10 private. In stardogR, the Stardog API is expressed as a collec
 tion
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 126--127
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 135--136
 []\OT1/cmtt/m/n/10 Note that the stardog object does not touch the database. It
  does
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 126--127
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 135--136
 \OT1/cmtt/m/n/10 not check if the database is online or whether the credentials
  are
  []
 
 
-Overfull \hbox (32.9967pt too wide) in paragraph at lines 126--127
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 135--136
 \OT1/cmtt/m/n/10 valid. It simply creates a data structure for holding that inf
 ormation. 
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 130--131
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 139--140
 \OT1/cmtt/m/n/10 Working with data requires a database. In the typical, Enterpr
 ise
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 130--131
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 139--140
 \OT1/cmtt/m/n/10 scenario, the database already exists and we just need to add 
 its name
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 130--131
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 139--140
 \OT1/cmtt/m/n/10 to the stardog object. However, in a development setting, we m
 ight
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 130--131
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 139--140
 \OT1/cmtt/m/n/10 well need to create a database, or reset an existing one (i.e.
  delete
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 130--131
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 139--140
 \OT1/cmtt/m/n/10 and recreate), for model building or a proof of concept. Funct
 ion
  []
 
 [3]
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 164--165
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 173--174
 []\OT1/cmtt/m/n/10 Since R is a functional language that avoids side effects, t
 he stardog
  []
 
 
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 164--165
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 173--174
 \OT1/cmtt/m/n/10 object is not updated within the function. It is returned and 
 needs
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 164--165
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 173--174
 \OT1/cmtt/m/n/10 to be assigned to something if we want to use the database. If
  the
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 164--165
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 173--174
 \OT1/cmtt/m/n/10 call was to create or reset a database, that particular side e
 ffect
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 164--165
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 173--174
 \OT1/cmtt/m/n/10 will occur in the Stardog database, but the stardog object wit
 h the
  []
 
 
-Overfull \hbox (27.74675pt too wide) in paragraph at lines 166--167
+Overfull \hbox (27.74675pt too wide) in paragraph at lines 175--176
 []\OT1/cmtt/m/n/10 Sometimes, we may want to reset the database slot to NA, in 
 which case,
  []
 
 
-Overfull \hbox (15.9971pt too wide) in paragraph at lines 185--186
+Overfull \hbox (15.9971pt too wide) in paragraph at lines 194--195
 []\OT1/cmtt/m/n/10 Run an insert query to add triples based on data already pre
 sent
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 188--189
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 197--198
 []\OT1/cmtt/m/n/10 The following code snippet shows how one might reset a datab
 ase for
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 188--189
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 197--198
 \OT1/cmtt/m/n/10 the Toronto beaches data, load the data and add the ontology. 
 The
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 188--189
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 197--198
 \OT1/cmtt/m/n/10 beaches data is included in the packages. For the mapping and 
 onto
  []
 
 
-Overfull \hbox (22.4968pt too wide) in paragraph at lines 198--198
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 207--207
 [][]\OT1/cmtt/m/n/10 add_namespace[][](sg,[] []uri[] []=[] []"http://beach.star
 dog.com/"[][],[] []prefix[] []=[] []"beach"[][])[][] 
  []
 
-
-Overfull \hbox (2.57507pt too wide) in paragraph at lines 208--209
+[4{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/enc/dvips/cm-su
+per/cm-super-ts1.enc}]
+Overfull \hbox (2.57507pt too wide) in paragraph at lines 217--218
 []\OT1/cmr/m/it/10 Update ob-ject \OT1/cmtt/m/n/10 sg by adding the name of a d
 atabase. Set create =
  []
 
 
-Overfull \hbox (10.74715pt too wide) in paragraph at lines 208--209
+Overfull \hbox (10.74715pt too wide) in paragraph at lines 217--218
 \OT1/cmtt/m/n/10 TRUE to crete. Use reset = TRUE if the database already exists
 
  []
 
-[4{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/enc/dvips/cm-su
-per/cm-super-ts1.enc}]
-Overfull \hbox (9.27715pt too wide) in paragraph at lines 209--210
+
+Overfull \hbox (9.27715pt too wide) in paragraph at lines 218--219
 []\OT1/cmtt/m/n/10 Add a namespace. add[]namespace can add one prefix-urn pair 
 for
  []
 
 
-Overfull \hbox (10.74715pt too wide) in paragraph at lines 210--211
+Overfull \hbox (10.74715pt too wide) in paragraph at lines 219--220
 []\OT1/cmtt/m/n/10 Add the beaches data from DataFrame beach. The mapping file 
 is
  []
 
 
-Overfull \hbox (5.4972pt too wide) in paragraph at lines 211--212
+Overfull \hbox (5.4972pt too wide) in paragraph at lines 220--221
 []\OT1/cmtt/m/n/10 Add the ontology triples. The turtle formatted RDF is also i
 n
  []
 
 
-Overfull \hbox (5.4972pt too wide) in paragraph at lines 211--212
+Overfull \hbox (5.4972pt too wide) in paragraph at lines 220--221
 \OT1/cmtt/m/n/10 string format. In this example, I am adding the ontology to a
  []
 
 
-Overfull \hbox (10.74715pt too wide) in paragraph at lines 211--212
+Overfull \hbox (10.74715pt too wide) in paragraph at lines 220--221
 \OT1/cmtt/m/n/10 named graph. Note that I am referring to the named graph using
 
  []
 
 
-Overfull \hbox (26.49701pt too wide) in paragraph at lines 212--213
+Overfull \hbox (26.49701pt too wide) in paragraph at lines 221--222
 []\OT1/cmtt/m/n/10 Run a query as a reality check. Function query returns the n
 umber
  []
 
-<beachPlot.jpeg, id=103, 855.195pt x 482.80376pt>
+<beachPlot.jpeg, id=102, 855.195pt x 482.80376pt>
 File: beachPlot.jpeg Graphic file (type jpg)
 <use beachPlot.jpeg>
-Package pdftex.def Info: beachPlot.jpeg  used on input line 230.
+Package pdftex.def Info: beachPlot.jpeg  used on input line 239.
 (pdftex.def)             Requested size: 427.59647pt x 241.40129pt.
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 237--238
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 246--247
 \OT1/cmtt/m/n/10 Sparql queries against Stardog can be simple requests for data
 , or
  []
 
 
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 237--238
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 246--247
 \OT1/cmtt/m/n/10 they can effect change to the databases. stardogR allows four 
 kinds
  []
 
 
-Overfull \hbox (27.94264pt too wide) in paragraph at lines 240--241
+Overfull \hbox (27.94264pt too wide) in paragraph at lines 249--250
 []\OT1/cmtt/m/n/10 An ask query checks if certain patterns exist in the RDF and
  return
  []
 
 
-Overfull \hbox (16.71371pt too wide) in paragraph at lines 241--242
+Overfull \hbox (16.71371pt too wide) in paragraph at lines 250--251
 []\OT1/cmtt/m/n/10 A construct query returns RDF triples, which could form the
  []
 
 
-Overfull \hbox (10.74715pt too wide) in paragraph at lines 241--242
+Overfull \hbox (10.74715pt too wide) in paragraph at lines 250--251
 \OT1/cmtt/m/n/10 basis of a new graph. The construct query does not, in itself,
 
  []
 
 
-Overfull \hbox (20.3164pt too wide) in paragraph at lines 242--243
+Overfull \hbox (20.3164pt too wide) in paragraph at lines 251--252
 []\OT1/cmtt/m/n/10 Update queries either insert or delete triples from the grap
 h,
  []
 
 
-Overfull \hbox (39.60234pt too wide) in paragraph at lines 243--244
+Overfull \hbox (39.60234pt too wide) in paragraph at lines 252--253
 []\OT1/cmtt/m/n/10 A select query returns an R DataFrame of results from the da
 tabase. 
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 246--247
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 255--256
 []\OT1/cmtt/m/n/10 stardogR has one function, query, for these use cases. It pa
 rses the
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 246--247
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 255--256
 \OT1/cmtt/m/n/10 supplied query to infer its type and takes appropriate action.
  It
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 246--247
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 255--256
 \OT1/cmtt/m/n/10 returns a DataFrame for a select query, a Boolean for an ask q
 uery,
  []
 
-
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 250--251
+[5]
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 259--260
 \OT1/cmtt/m/n/10 A select query extracts data from the database and returns it 
 as an
  []
 
-[5]
 LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 
-261.
- (/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/omscmtt.fd
+270.
+(/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/omscmtt.fd
 File: omscmtt.fd 
 )
 LaTeX Font Info:    Font shape `OMS/cmtt/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 261.
- [6 <./beachPlot.jpeg>]
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 295--296
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 270.
+
+[6 <./beachPlot.jpeg>]
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 304--305
 []\OT1/cmtt/m/n/10 limit and graph can be included in the body of the query or 
 supplied
  []
 
 
-Overfull \hbox (127.49588pt too wide) in paragraph at lines 315--315
+Overfull \hbox (127.49588pt too wide) in paragraph at lines 324--324
 []\OT1/cmtt/m/n/10 [1,] "beach:sample_1"  "beach:hasBeachId" "beach:beach_id_%2
 0%20%20%20%20%20%20%20%201%20"[] 
  []
 
 
-Overfull \hbox (127.49588pt too wide) in paragraph at lines 315--315
+Overfull \hbox (127.49588pt too wide) in paragraph at lines 324--324
 []\OT1/cmtt/m/n/10 [2,] "beach:sample_12" "beach:hasBeachId" "beach:beach_id_%2
 0%20%20%20%20%20%20%20%201%20"[] 
  []
 
 
-Overfull \hbox (127.49588pt too wide) in paragraph at lines 315--315
+Overfull \hbox (127.49588pt too wide) in paragraph at lines 324--324
 []\OT1/cmtt/m/n/10 [3,] "beach:sample_23" "beach:hasBeachId" "beach:beach_id_%2
 0%20%20%20%20%20%20%20%201%20"[] 
  []
 
 
-Overfull \hbox (127.49588pt too wide) in paragraph at lines 315--315
+Overfull \hbox (127.49588pt too wide) in paragraph at lines 324--324
 []\OT1/cmtt/m/n/10 [4,] "beach:sample_34" "beach:hasBeachId" "beach:beach_id_%2
 0%20%20%20%20%20%20%20%201%20"[] 
  []
 
 
-Overfull \hbox (122.24593pt too wide) in paragraph at lines 315--315
+Overfull \hbox (122.24593pt too wide) in paragraph at lines 324--324
 []\OT1/cmtt/m/n/10 [5,] "beach:sample_45" "beach:hasBeachId" "beach:beach_id_%2
 0%20%20%20%20%20%20%20%201%20[] 
  []
 
 
-Overfull \hbox (15.77684pt too wide) in paragraph at lines 319--320
+Overfull \hbox (15.77684pt too wide) in paragraph at lines 328--329
 \OT1/cmtt/m/n/10 The original data has a field called Beach[]Status, which reco
 rds SAFE
  []
 
 
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 319--320
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 328--329
 \OT1/cmtt/m/n/10 or UNSAFE according as the eColi level is below 100 or not. In
 stead
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 319--320
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 328--329
 \OT1/cmtt/m/n/10 of importing that field, we can add it to the database with an
  insert
  []
 
 [7]
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 367--368
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 376--377
 \OT1/cmtt/m/n/10 Adding statistics and derived quantities to the raw data is po
 ssibly
  []
 
 
-Overfull \hbox (1.49698pt too wide) in paragraph at lines 406--407
+Overfull \vbox (1.37361pt too high) detected at line 408
+ []
+
+[8]
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 415--416
 []\OT1/cmtt/m/n/10 Beach status was successfully deleted. Now, let's recalculat
 e the
  []
 
-[8]
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 457--458
+
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 466--467
 \OT1/cmtt/m/n/10 A construct query returns RDF instead of a DataFrame. Otherwis
 e, the
  []
 
 
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 457--458
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 466--467
 \OT1/cmtt/m/n/10 structure is similar to a select query. Suppose I want to retu
 rn the
  []
 
 [9]
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 201%20>[] 
  []
 
 
-Overfull \hbox (32.9967pt too wide) in paragraph at lines 515--515
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 524--524
 []   \OT1/cmtt/m/n/10 <http://beach.stardog.com/beachName> "Marie Curtis Park E
 ast Beach" .[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 202%20>[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 203%20>[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 204%20>[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 205%20>[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 206%20>[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 207%20>[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 208%20>[] 
  []
 
 
-Overfull \hbox (6.74693pt too wide) in paragraph at lines 515--515
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 524--524
 []\OT1/cmtt/m/n/10 <http://beach.stardog.com/beach_id_%20%20%20%20%20%20%20%20%
 209%20>[] 
  []
 
-
-Overfull \hbox (17.24684pt too wide) in paragraph at lines 515--515
+[10]
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 524--524
 []   \OT1/cmtt/m/n/10 <http://beach.stardog.com/beachName> "Sunnyside Enclosure
  Beach" .[] 
  []
 
-[10] (./stardogRTutorial.aux)
+[11] (./stardogRTutorial.aux)
 Package rerunfilecheck Info: File `stardogRTutorial.out' has not changed.
 (rerunfilecheck)             Checksum: 8981F44FBED9D04DED9BF3F28A5E03E5;2270.
  ) 
 Here is how much of TeX's memory you used:
- 9209 strings out of 476025
- 147971 string characters out of 5780034
+ 9210 strings out of 476025
+ 147978 string characters out of 5780034
  1862388 words of memory out of 5000000
  29514 multiletter control sequences out of 15000+600000
  517391 words of font info for 49 fonts, out of 8000000 for 9000
@@ -998,10 +1002,10 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></opt/homebrew/Cellar/texl
 ive/20230313/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></opt/h
 omebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/type1/public/cm-super/sf
 rm1000.pfb>
-Output written on stardogRTutorial.pdf (10 pages, 163282 bytes).
+Output written on stardogRTutorial.pdf (11 pages, 163926 bytes).
 PDF statistics:
- 186 PDF objects out of 1000 (max. 8388607)
- 153 compressed objects within 2 object streams
- 34 named destinations out of 1000 (max. 500000)
+ 190 PDF objects out of 1000 (max. 8388607)
+ 156 compressed objects within 2 object streams
+ 35 named destinations out of 1000 (max. 500000)
  118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

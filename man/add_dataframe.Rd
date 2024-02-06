@@ -21,6 +21,8 @@ add_dataframe(
 
 \item{mapping}{Mapping function expressed as a string}
 
+\item{na}{The missing value code for the translation}
+
 \item{graph}{optional named of named graph to receive the data}
 
 \item{verbose}{if TRUE, get more details about the request}

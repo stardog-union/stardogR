@@ -22,6 +22,8 @@ select(
 
 \item{pretty}{description TRUE to replace the base iri with prefixes, where possible.}
 
+\item{raw}{Boolean. Determines the format of the returned data. Raw=FALSE returns a dataframe}
+
 \item{...}{Options for the query. See Details}
 }
 \value{

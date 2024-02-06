@@ -9,7 +9,7 @@ exists_data_source(stardog, data_source)
 \arguments{
 \item{stardog}{Stardog object}
 
-\item{source_name}{Name of the potential data source}
+\item{data_source}{Name of the potential data source}
 }
 \value{
 Boolean. True if there is a data source with that name

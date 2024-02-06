@@ -22,7 +22,7 @@
 knitr::opts_chunk$set(echo = TRUE, comment = NA, warning = FALSE, message = FALSE)
 @
 
-<<echo=FALSE>>=
+<<eval=FALSE>>=
 library('stardogR')
 library('purrr')
 library('jsonlite')
