@@ -14,8 +14,7 @@ Imports:
     jsonlite,
     purrr,
     readr,
-    httr,
-    igraph
+    httr
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 4.0.0)
