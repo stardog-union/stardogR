@@ -93,7 +93,7 @@ If external data is already in RDF format, the data format Stardog uses to build
 \hlkwd{args}\hlstd{(starmap)}
 \end{alltt}
 \begin{verbatim}
-function (formulae, data, prefix = "", urn = "http://stardog.com/") 
+function (formulae, data, prefix = "", uri = "http://api.stardog.com/") 
 NULL
 \end{verbatim}
 \end{kframe}
@@ -165,7 +165,7 @@ Each row contains the results of one eColi sample. I need an IRI node for each r
                     Beach_Advisory ~ Beach_ID | Beach_Name"}\hlstd{,}
                   \hlstd{beaches,}
                   \hlkwc{prefix} \hlstd{=} \hlstr{"beach"}\hlstd{,}
-                  \hlkwc{urn} \hlstd{=} \hlstr{"http://beach.stardog.com/"}
+                  \hlkwc{uri} \hlstd{=} \hlstr{"http://beach.stardog.com/"}
                   \hlstd{)}
 \hlkwd{names}\hlstd{(results)}
 \end{alltt}
@@ -289,36 +289,37 @@ bind(xsd:boolean(lcase(?myBoolean)) as ?newBoolean)
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix stardog: <tag:stardog:api:> . 
+@prefix so: <https://schema.org/> . 
 @prefix beach: <http://beach.stardog.com/> . 
 
 <http://beach.stardog.com/Sample> a owl:Class ; 
 	rdfs:label 'Sample' . 
 <http://beach.stardog.com/sampleDate> a owl:DatatypeProperty ; 
 	rdfs:label 'sampleDate' ; 
-	rdfs:domain <http://beach.stardog.com/Sample> ; 
-	rdfs:range xsd:date .
+	so:domainIncludes <http://beach.stardog.com/Sample> ; 
+	so:rangeIncludes xsd:date .
 <http://beach.stardog.com/ecoliLevel> a owl:DatatypeProperty ; 
 	rdfs:label 'ecoliLevel' ; 
-	rdfs:domain <http://beach.stardog.com/Sample> ; 
-	rdfs:range xsd:integer .
+	so:domainIncludes <http://beach.stardog.com/Sample> ; 
+	so:rangeIncludes xsd:integer .
 <http://beach.stardog.com/beachStatus> a owl:DatatypeProperty ; 
 	rdfs:label 'beachStatus' ; 
-	rdfs:domain <http://beach.stardog.com/Sample> ; 
-	rdfs:range xsd:string .
+	so:domainIncludes <http://beach.stardog.com/Sample> ; 
+	so:rangeIncludes xsd:string .
 <http://beach.stardog.com/beachAdvisory> a owl:DatatypeProperty ; 
 	rdfs:label 'beachAdvisory' ; 
-	rdfs:domain <http://beach.stardog.com/Sample> ; 
-	rdfs:range xsd:string .
+	so:domainIncludes <http://beach.stardog.com/Sample> ; 
+	so:rangeIncludes xsd:string .
 <http://beach.stardog.com/BeachId> a owl:Class ; 
 	rdfs:label 'BeachId' . 
 <http://beach.stardog.com/beachName> a owl:DatatypeProperty ; 
 	rdfs:label 'beachName' ; 
-	rdfs:domain <http://beach.stardog.com/BeachId> ; 
-	rdfs:range xsd:string .
-<http://beach.stardog.com/:hasBeachId> a owl:ObjectProperty ; 
+	so:domainIncludes <http://beach.stardog.com/BeachId> ; 
+	so:rangeIncludes xsd:string .
+<http://beach.stardog.com/hasBeachId> a owl:ObjectProperty ; 
  	 rdfs:label 'hasBeachId' ; 
- 	 rdfs:domain <http://beach.stardog.com/Sample> ; 
-	 rdfs:range <http://beach.stardog.com/BeachId> . 
+ 	 so:domainIncludes <http://beach.stardog.com/Sample> ; 
+	 so:rangeIncludes <http://beach.stardog.com/BeachId> . 
  
 \end{verbatim}
 \end{kframe}

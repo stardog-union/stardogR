@@ -104,7 +104,7 @@ results <- starmap("#sample | Sample_Date + eColi_Level + Beach_Status +
                     Beach_Advisory ~ Beach_ID | Beach_Name",
                   beaches,
                   prefix = "beach",
-                  urn = "http://beach.stardog.com/"
+                  uri = "http://beach.stardog.com/"
                   )
 names(results)
 @

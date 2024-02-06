@@ -6,6 +6,7 @@
 #' @param q The query expressed as a string
 #' @param graph Run the query against this named graph.
 #' @param pretty description TRUE to replace the base iri with prefixes, where possible.
+#' @param raw Boolean. Determines the format of the returned data. Raw=FALSE returns a dataframe
 #' @param ... Options for the query. See Details
 #' @returns a dataframe containing the results.
 #' @details

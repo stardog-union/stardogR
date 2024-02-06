@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Homebrew) (preloaded format=pdflatex 2023.3.21)  14 AUG 2023 14:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Homebrew) (preloaded format=pdflatex 2023.3.21)  6 FEB 2024 15:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -601,9 +601,9 @@ LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (6.74898pt too wide) in paragraph at lines 98--98
-[]\T1/lmtt/m/n/10 function (formulae, data, prefix = "", urn = "http://stardog.
-com/")[] 
+Overfull \hbox (27.74892pt too wide) in paragraph at lines 98--98
+[]\T1/lmtt/m/n/10 function (formulae, data, prefix = "", uri = "http://api.star
+dog.com/")[] 
  []
 
 
@@ -1198,19 +1198,19 @@ Overfull \hbox (59.24883pt too wide) in paragraph at lines 271--272
  []
 
 [6]
-Overfull \hbox (11.99896pt too wide) in paragraph at lines 327--328
+Overfull \hbox (11.99896pt too wide) in paragraph at lines 328--329
 []\T1/lmtt/m/n/10 starmap creates a simple ontology for the new classes and pro
 perties
  []
 
 [7]
-Overfull \hbox (43.49887pt too wide) in paragraph at lines 331--332
+Overfull \hbox (43.49887pt too wide) in paragraph at lines 332--333
 \T1/lmtt/m/n/10 We can now use stardogR to create the database and load the dat
 a. Details
  []
 
 
-Overfull \hbox (22.49893pt too wide) in paragraph at lines 338--338
+Overfull \hbox (22.49893pt too wide) in paragraph at lines 339--339
 [][]\T1/lmtt/b/n/10 add_namespace[][]\T1/lmtt/m/n/10 (sg,[] []uri[] []=[] []"ht
 tp://beach.stardog.com/"[][],[] []prefix[] []=[] []"beach"[][])[][] 
  []
@@ -1238,7 +1238,7 @@ r/texlive/20230313/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></opt/home
 brew/Cellar/texlive/20230313/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
 </opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/type1/public/lm/l
 mtt12.pfb>
-Output written on usingStarmap.pdf (8 pages, 235282 bytes).
+Output written on usingStarmap.pdf (8 pages, 235299 bytes).
 PDF statistics:
  163 PDF objects out of 1000 (max. 8388607)
  132 compressed objects within 2 object streams

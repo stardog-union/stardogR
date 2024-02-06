@@ -228,7 +228,7 @@ exists_virtual_graph <- function(stardog, vgName) {
 #' Checks if there is a data source with the supplied name
 #'
 #' @param stardog Stardog object
-#' @param source_name Name of the potential data source
+#' @param data_source Name of the potential data source
 #' @returns Boolean. True if there is a data source with that name
 #' @export
 #'
