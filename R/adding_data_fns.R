@@ -12,7 +12,7 @@
 #' it returns the status code
 #'
 #' @export
-add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = TRUE) {
+add_ttl <- function(stardog, ttl = NULL, graph = NULL, path = FALSE) {
   if (length(stardog$database) == 0) {
     cat("Stardog object must include a database")
     return()

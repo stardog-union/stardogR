@@ -4,7 +4,7 @@
 \alias{add_ttl}
 \title{Add a string of turtle}
 \usage{
-add_ttl(stardog, ttl = NULL, graph = NULL, path = TRUE)
+add_ttl(stardog, ttl = NULL, graph = NULL, path = FALSE)
 }
 \arguments{
 \item{stardog}{Stardog object}
