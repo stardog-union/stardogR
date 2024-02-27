@@ -2,12 +2,12 @@ Package: stardogR
 Type: Package
 Title: R Wrapper for the Stardog HTTP API
 Version: 1.0.0.6
-Author: Catherine Dalzell <catherine.dalzell@stardog.com>
+Author: Catherine Dalzell <catherine.j.dalzell@gmail.com>
 Maintainer: Catherine Dalzell <catherine.dalzell@stardog.com>
 Description: Supplies many of the calls from the Stardog HTTP API, especially those intended
     for use in data science. Dev ops functions that assign users and roles, or deal with security,
     are not included in this release.
-License: GPL (>= 3)
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
